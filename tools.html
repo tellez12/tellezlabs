@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools - Tellez Labs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' font-weight='bold' fill='%233b82f6'>T</text></svg>">
+</head>
+<body class="bg-slate-900 text-gray-100">
+    <!-- Navigation -->
+    <nav class="bg-slate-800 border-b border-slate-700 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="text-2xl font-bold text-blue-400">
+                <a href="index.html">Tellez Labs</a>
+            </div>
+            <div class="space-x-6">
+                <a href="index.html" class="hover:text-blue-400 transition">About</a>
+                <a href="resume.html" class="hover:text-blue-400 transition">Resume</a>
+                <a href="tools.html" class="hover:text-blue-400 transition">Tools</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="bg-gradient-to-br from-slate-800 to-slate-900 py-12 border-b border-slate-700">
+        <div class="max-w-6xl mx-auto px-4">
+            <h1 class="text-4xl font-bold mb-4 text-white">Developer Tools</h1>
+            <p class="text-gray-300">A collection of useful utilities to boost your productivity</p>
+        </div>
+    </section>
+
+    <!-- Tools Container -->
+    <section class="py-12">
+        <div class="max-w-6xl mx-auto px-4">
+            <!-- Tool Selector -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+                <button onclick="showTool('pomodoro')" class="tool-btn bg-blue-600 hover:bg-blue-700 px-4 py-3 rounded transition font-semibold" data-tool="pomodoro">
+                    🍅 Pomodoro
+                </button>
+                <button onclick="showTool('jwt')" class="tool-btn bg-slate-700 hover:bg-slate-600 px-4 py-3 rounded transition font-semibold" data-tool="jwt">
+                    🔐 JWT Decoder
+                </button>
+                <button onclick="showTool('url')" class="tool-btn bg-slate-700 hover:bg-slate-600 px-4 py-3 rounded transition font-semibold" data-tool="url">
+                    🔗 URL Decoder
+                </button>
+                <button onclick="showTool('base64')" class="tool-btn bg-slate-700 hover:bg-slate-600 px-4 py-3 rounded transition font-semibold" data-tool="base64">
+                    🔀 Base64
+                </button>
+            </div>
+
+            <!-- Tools Content -->
+            <div class="space-y-8">
+                <!-- Pomodoro Tool -->
+                <div id="pomodoro" class="tool-content bg-slate-800 rounded-lg p-8 border border-slate-700">
+                    <h2 class="text-2xl font-bold mb-6 text-white">🍅 Pomodoro Timer</h2>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <div class="text-center mb-6">
+                                <div class="text-7xl font-bold text-blue-400 mb-4" id="pomodoroDisplay">25:00</div>
+                                <p class="text-gray-300 mb-4" id="pomodoroStatus">Work Session</p>
+                                <div class="space-x-4">
+                                    <button onclick="pomodoroStart()" id="pomodoroStartBtn" class="bg-green-600 hover:bg-green-700 px-6 py-2 rounded transition">Start</button>
+                                    <button onclick="pomodoroPause()" id="pomodoroPauseBtn" class="bg-yellow-600 hover:bg-yellow-700 px-6 py-2 rounded transition" style="display:none;">Pause</button>
+                                    <button onclick="pomodoroReset()" class="bg-red-600 hover:bg-red-700 px-6 py-2 rounded transition">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-slate-700 rounded p-6">
+                            <h3 class="text-lg font-semibold mb-4 text-blue-400">Settings</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm text-gray-300 mb-2">Work Duration (minutes)</label>
+                                    <input type="number" id="pomodoroWork" value="25" min="1" max="60" class="w-full bg-slate-600 text-white px-3 py-2 rounded">
+                                </div>
+                                <div>
+                                    <label class="block text-sm text-gray-300 mb-2">Break Duration (minutes)</label>
+                                    <input type="number" id="pomodoroBreak" value="5" min="1" max="30" class="w-full bg-slate-600 text-white px-3 py-2 rounded">
+                                </div>
+                                <button onclick="pomodoroApplySettings()" class="w-full bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition">Apply Settings</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- JWT Decoder Tool -->
+                <div id="jwt" class="tool-content bg-slate-800 rounded-lg p-8 border border-slate-700" style="display:none;">
+                    <h2 class="text-2xl font-bold mb-6 text-white">🔐 JWT Decoder</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm text-gray-300 mb-2">JWT Token</label>
+                            <textarea id="jwtInput" placeholder="Paste your JWT token here..." class="w-full h-32 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none"></textarea>
+                        </div>
+                        <button onclick="decodeJWT()" class="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded transition">Decode</button>
+                        
+                        <div id="jwtOutput" style="display:none;" class="bg-slate-700 rounded p-4 space-y-4">
+                            <div>
+                                <h3 class="text-blue-400 font-semibold mb-2">Header</h3>
+                                <pre id="jwtHeader" class="bg-slate-600 p-3 rounded text-sm overflow-auto"></pre>
+                            </div>
+                            <div>
+                                <h3 class="text-blue-400 font-semibold mb-2">Payload</h3>
+                                <pre id="jwtPayload" class="bg-slate-600 p-3 rounded text-sm overflow-auto"></pre>
+                            </div>
+                            <div>
+                                <h3 class="text-yellow-400 font-semibold mb-2">Note</h3>
+                                <p class="text-gray-300 text-sm">⚠️ Always verify JWT signature on your backend. Do not trust unverified tokens.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- URL Decoder Tool -->
+                <div id="url" class="tool-content bg-slate-800 rounded-lg p-8 border border-slate-700" style="display:none;">
+                    <h2 class="text-2xl font-bold mb-6 text-white">🔗 URL Decoder/Encoder</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm text-gray-300 mb-2">Original Text</label>
+                            <textarea id="urlInput" placeholder="Paste URL or text..." class="w-full h-40 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none"></textarea>
+                            <div class="space-x-2 mt-4">
+                                <button onclick="encodeURL()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition text-sm">Encode</button>
+                                <button onclick="decodeURL()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition text-sm">Decode</button>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-300 mb-2">Result</label>
+                            <textarea id="urlOutput" placeholder="Result will appear here..." readonly class="w-full h-40 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none"></textarea>
+                            <button onclick="copyToClipboard('urlOutput')" class="w-full mt-4 bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded transition text-sm">Copy Result</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Base64 Tool -->
+                <div id="base64" class="tool-content bg-slate-800 rounded-lg p-8 border border-slate-700" style="display:none;">
+                    <h2 class="text-2xl font-bold mb-6 text-white">🔀 Base64 Encoder/Decoder</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm text-gray-300 mb-2">Input Text</label>
+                            <textarea id="base64Input" placeholder="Paste text or base64..." class="w-full h-40 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none"></textarea>
+                            <div class="space-x-2 mt-4">
+                                <button onclick="encodeBase64()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition text-sm">Encode</button>
+                                <button onclick="decodeBase64()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition text-sm">Decode</button>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-300 mb-2">Output</label>
+                            <textarea id="base64Output" placeholder="Result will appear here..." readonly class="w-full h-40 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none"></textarea>
+                            <button onclick="copyToClipboard('base64Output')" class="w-full mt-4 bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded transition text-sm">Copy Result</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 border-t border-slate-700 py-8">
+        <div class="max-w-6xl mx-auto px-4 text-center text-gray-400">
+            <p>&copy; 2026 Tellez Labs. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="tools.js"></script>
+</body>
+</html>
