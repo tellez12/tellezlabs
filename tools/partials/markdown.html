@@ -1,0 +1,15 @@
+            <!-- ==================== MARKDOWN ==================== -->
+            <div id="markdown" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">📝 Markdown Preview</h2>
+                <div class="grid md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Markdown</label>
+                        <textarea id="markdownInput" oninput="previewMarkdown()" placeholder="# Hello World&#10;&#10;Write your markdown here..." class="w-full h-96 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none font-mono text-sm resize-none"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Preview</label>
+                        <div id="markdownPreview" class="w-full h-96 bg-slate-700 px-4 py-3 rounded border border-slate-600 overflow-auto text-sm"></div>
+                    </div>
+                </div>
+            </div>
+

@@ -1,0 +1,35 @@
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 border-t border-slate-700 py-8 mt-4">
+        <div class="max-w-6xl mx-auto px-4 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 Tellez Labs. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="tools/pomodoro.js"></script>
+    <script src="tools/encode.js"></script>
+    <script src="tools/security.js"></script>
+    <script src="tools/converters.js"></script>
+    <script src="tools/text.js"></script>
+    <script src="tools/analysis.js"></script>
+    <script src="tools/core.js"></script>
+    <script>
+        const toggle = document.getElementById('navToggle');
+        const menu = document.getElementById('mobileMenu');
+        const iconMenu = document.getElementById('iconMenu');
+        const iconClose = document.getElementById('iconClose');
+        toggle.addEventListener('click', () => {
+            const open = menu.classList.toggle('hidden');
+            iconMenu.classList.toggle('hidden', !open);
+            iconClose.classList.toggle('hidden', open);
+        });
+        const mobilePicker = document.getElementById('mobilePicker');
+        const origShowTool = window.showTool;
+        window.showTool = function(toolName) {
+            origShowTool(toolName);
+            if (mobilePicker.value !== toolName) mobilePicker.value = toolName;
+        };
+    </script>
+</body>
+</html>

@@ -6,189 +6,344 @@
     <title>Resume - Tellez Labs</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' font-weight='bold' fill='%233b82f6'>T</text></svg>">
+    <style>
+        @media print {
+            body { background-color: white !important; color: #111 !important; font-size: 11px; }
+            nav, footer, .no-print { display: none !important; }
+            .contact-strip { background: none !important; border-bottom: 1px solid #d1d5db !important; padding: 8px 0 !important; }
+            .contact-strip a, .contact-strip span { color: #374151 !important; }
+            h2 { color: #1d4ed8 !important; border-color: #d1d5db !important; }
+            h3 { color: #1e40af !important; }
+            p, li, span { color: #374151 !important; }
+            .bg-slate-800, .bg-slate-700 { background-color: #f9fafb !important; border-color: #e5e7eb !important; }
+            .text-blue-400, .text-sky-400, .text-violet-400, .text-emerald-400, .text-amber-400, .text-teal-400, .text-rose-400, .text-slate-400 { color: #1d4ed8 !important; }
+            .text-gray-400, .text-gray-300, .text-gray-500 { color: #4b5563 !important; }
+            a { color: #1d4ed8 !important; text-decoration: none !important; }
+        }
+    </style>
 </head>
 <body class="bg-slate-900 text-gray-100">
+
     <!-- Navigation -->
     <nav class="bg-slate-800 border-b border-slate-700 sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-            <div class="text-2xl font-bold text-blue-400">
-                <a href="index.html">Tellez Labs</a>
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-full overflow-hidden border border-blue-500/60 shrink-0">
+                    <img src="badge2.jpg" alt="Luis Tellez" class="w-full h-full object-cover object-top">
+                </div>
+                <div class="leading-tight">
+                    <div class="text-sm font-semibold text-white">Luis Tellez</div>
+                    <div class="text-xs text-gray-500 hidden sm:block">Senior Software Engineer</div>
+                </div>
+            </a>
+            <div class="hidden sm:flex items-center space-x-6 text-sm">
+                <a href="index.html" class="hover:text-blue-400 transition text-gray-300">About</a>
+                <a href="resume.html" class="text-blue-400 font-semibold">Resume</a>
+                <a href="tools.html" class="hover:text-blue-400 transition text-gray-300">Tools</a>
             </div>
-            <div class="space-x-6">
-                <a href="index.html" class="hover:text-blue-400 transition">About</a>
-                <a href="resume.html" class="hover:text-blue-400 transition">Resume</a>
-                <a href="tools.html" class="hover:text-blue-400 transition">Tools</a>
-            </div>
+            <button id="navToggle" class="sm:hidden text-gray-300 hover:text-white" aria-label="Menu">
+                <svg id="iconMenu" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                <svg id="iconClose" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <div id="mobileMenu" class="hidden sm:hidden bg-slate-800 border-t border-slate-700 px-4 pb-4 space-y-1">
+            <a href="index.html" class="block py-2 text-gray-300 hover:text-blue-400 transition text-sm">About</a>
+            <a href="resume.html" class="block py-2 text-blue-400 font-semibold text-sm">Resume</a>
+            <a href="tools.html" class="block py-2 text-gray-300 hover:text-blue-400 transition text-sm">Tools</a>
         </div>
     </nav>
 
-    <!-- Resume Container -->
-    <section class="py-12 border-b border-slate-700">
-        <div class="max-w-4xl mx-auto px-4">
-            <div class="flex justify-between items-start mb-8">
-                <div>
-                    <h1 class="text-4xl font-bold text-white mb-2">Luis O. Tellez Rivas</h1>
-                    <p class="text-xl text-blue-400">Senior Software Engineer | Certified Scrum Master</p>
-                </div>
-                <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition text-sm">
-                    📥 Download PDF
-                </button>
+    <!-- Contact strip -->
+    <div class="contact-strip border-b border-slate-700 bg-slate-800/40">
+        <div class="max-w-4xl mx-auto px-4 py-2.5 flex flex-wrap gap-x-5 gap-y-2 items-center justify-between">
+            <div class="flex flex-wrap gap-x-5 gap-y-1 text-xs text-gray-400">
+                <a href="mailto:tellezlabs@gmail.com" class="hover:text-blue-400 transition flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    tellezlabs@gmail.com
+                </a>
+                <a href="https://linkedin.com/in/luistellez" target="_blank" rel="noopener" class="hover:text-blue-400 transition flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    linkedin.com/in/luistellez
+                </a>
+                <span class="flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    Málaga, Spain · Available globally
+                </span>
             </div>
-
-            <div class="text-gray-300 mb-8">
-                <p>📧 tellezlabs@gmail.com | 🌐 linkedin.com/in/luistellez</p>
-                <p>📍 Málaga, Spain | Available globally</p>
-            </div>
-
-            <!-- Executive Summary -->
-            <section class="mb-10">
-                <h2 class="text-2xl font-bold text-white border-b border-blue-400 pb-2 mb-4">Professional Summary</h2>
-                <p class="text-gray-300 line-height-relaxed">
-                    Senior Software Engineer with 15+ years of experience leading architecture and delivery of high-scale distributed systems in cloud-native environments, including mission-critical network monitoring infrastructure at AWS and fleet management platforms at Verizon Connect. Deep expertise in Python, C#/.NET, and AWS serverless, with proven ownership of system design, performance optimization, microservice migrations, and CI/CD pipelines. Track record of cross-team technical leadership, mentoring engineers, and raising the hiring bar through technical interviews. Certified Scrum Master.
-                </p>
-            </section>
-
-            <!-- Experience -->
-            <section class="mb-10">
-                <h2 class="text-2xl font-bold text-white border-b border-blue-400 pb-2 mb-4">Professional Experience</h2>
-                
-                <div class="mb-6">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-xl font-semibold text-blue-300">Senior Software Engineer</h3>
-                        <span class="text-gray-400">Oct 2023 - Oct 2025</span>
-                    </div>
-                    <p class="text-gray-400 mb-2">Verizon Connect (Contract, Dublin, Ireland)</p>
-                    <ul class="list-disc list-inside text-gray-300 space-y-1">
-                        <li>Redesigned Automated Emissions Compliance Framework with DynamoDB, supporting multiple compliance types with extensible data model</li>
-                        <li>Led sprint planning across Admin group (user management, drivers, permissions, vehicles, tooling services)</li>
-                        <li>Executed migration of microservices from .NET Framework 4.5 to .NET 6/8, eliminating legacy vulnerabilities</li>
-                        <li>Built AI/ML-powered chat prototype using Amazon Bedrock integrated with documentation and live APIs</li>
-                    </ul>
-                </div>
-
-                <div class="mb-6">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-xl font-semibold text-blue-300">Co-Founder & CIO</h3>
-                        <span class="text-gray-400">May 2022 - Jul 2023</span>
-                    </div>
-                    <p class="text-gray-400 mb-2">Dappify (now WebStudio, Dublin, Ireland)</p>
-                    <ul class="list-disc list-inside text-gray-300 space-y-1">
-                        <li>Co-founded no-code Web3 platform enabling MVP launches in minutes via community-maintained smart templates</li>
-                        <li>Led design and development of Solidity smart contracts for NFT marketplaces with automated revenue-sharing</li>
-                        <li>Managed customer acquisition and blockchain technology education</li>
-                    </ul>
-                </div>
-
-                <div class="mb-6">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-xl font-semibold text-blue-300">Senior Software Engineer</h3>
-                        <span class="text-gray-400">Nov 2021 - May 2022</span>
-                    </div>
-                    <p class="text-gray-400 mb-2">DraftKings Inc. (Dublin, Ireland)</p>
-                    <ul class="list-disc list-inside text-gray-300 space-y-1">
-                        <li>Led design of online poker platform using C#, .NET Core, and Microsoft Orleans</li>
-                        <li>Built state machine managing full table lifecycle with robust edge case handling</li>
-                        <li>Implemented geolocation-based security validations for gaming regulation compliance</li>
-                    </ul>
-                </div>
-
-                <div class="mb-6">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-xl font-semibold text-blue-300">Senior Software Engineer</h3>
-                        <span class="text-gray-400">Jan 2017 - Nov 2021</span>
-                    </div>
-                    <p class="text-gray-400 mb-2">Amazon Web Services (Dublin, Ireland)</p>
-                    <ul class="list-disc list-inside text-gray-300 space-y-1">
-                        <li>Owned design and delivery of real-time network monitoring system (Python, C++) detecting packet loss and system failures</li>
-                        <li>Boosted alarm coordinator throughput by 3x with competitive job scheduler design</li>
-                        <li>Designed cloud-native HR microservice using Lambda, DynamoDB, Kinesis, and API Gateway</li>
-                        <li>Established CloudWatch dashboards and alerting for production monitoring across services</li>
-                        <li>Conducted technical interviews and mentored new engineers through structured onboarding programs</li>
-                    </ul>
-                </div>
-            </section>
-
-            <!-- Skills -->
-            <section class="mb-10">
-                <h2 class="text-2xl font-bold text-white border-b border-blue-400 pb-2 mb-4">Technical Skills</h2>
-                
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div>
-                        <h4 class="text-blue-400 font-semibold mb-2">Core Languages</h4>
-                        <p class="text-gray-300">Python, C#, .NET 6–8, C++, JavaScript, Java, Solidity</p>
-                    </div>
-                    <div>
-                        <h4 class="text-blue-400 font-semibold mb-2">AWS Serverless</h4>
-                        <p class="text-gray-300">Lambda, DynamoDB, API Gateway, SQS, SNS, Kinesis, CloudFormation, CDK, Bedrock</p>
-                    </div>
-                    <div>
-                        <h4 class="text-blue-400 font-semibold mb-2">Databases</h4>
-                        <p class="text-gray-300">DynamoDB, PostgreSQL, MSSQL, Oracle, MySQL</p>
-                    </div>
-                    <div>
-                        <h4 class="text-blue-400 font-semibold mb-2">Observability & CI/CD</h4>
-                        <p class="text-gray-300">CloudWatch, Grafana, Octopus Deploy, CodePipeline, BlackDuck, 42Crunch</p>
-                    </div>
-                    <div>
-                        <h4 class="text-blue-400 font-semibold mb-2">Frameworks & Tools</h4>
-                        <p class="text-gray-300">ASP.NET, Web API, MVC, Microsoft Orleans, Angular, WPF</p>
-                    </div>
-                    <div>
-                        <h4 class="text-blue-400 font-semibold mb-2">Practices</h4>
-                        <p class="text-gray-300">Agile/Scrum, SOLID, Design Patterns, Microservices, Distributed Systems</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Education -->
-            <section>
-                <h2 class="text-2xl font-bold text-white border-b border-blue-400 pb-2 mb-4">Education & Certifications</h2>
-                
-                <div class="mb-4">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-xl font-semibold text-blue-300">Master in Security Information Technology and Ethical Hacking</h3>
-                        <span class="text-gray-400">2016</span>
-                    </div>
-                    <p class="text-gray-400">EC-Council / CICE, Madrid, Spain</p>
-                </div>
-
-                <div class="mb-4">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-xl font-semibold text-blue-300">Computer Engineer</h3>
-                        <span class="text-gray-400">2011</span>
-                    </div>
-                    <p class="text-gray-400">Universidad Católica Andrés Bello, Caracas, Venezuela</p>
-                </div>
-
-                <div class="mb-4">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-xl font-semibold text-blue-300">Certified Scrum Master (CSM)</h3>
-                        <span class="text-gray-400">2014</span>
-                    </div>
-                    <p class="text-gray-400">Buenos Aires, Argentina</p>
-                </div>
-
-                <div>
-                    <h3 class="text-lg font-semibold text-blue-300 mb-2">ACM ICPC Competitor</h3>
-                    <p class="text-gray-400">2006–2009 — Won university programming marathon 4 consecutive years; represented Venezuela in national and international competitions</p>
-                </div>
-            </section>
+            <a href="Luis_Tellez_CV_software_engineer_2026.pdf" download class="no-print bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded transition text-xs font-medium flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                Download PDF
+            </a>
         </div>
-    </section>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-4xl mx-auto px-4 py-10 space-y-12">
+
+        <!-- Professional Summary -->
+        <section>
+            <h2 class="text-sm font-bold text-blue-400 uppercase tracking-widest border-b border-slate-700 pb-2 mb-5">
+                Professional Summary
+            </h2>
+            <p class="text-gray-300 leading-relaxed">
+                Senior Software Engineer with 15+ years of experience leading architecture and delivery of high-scale distributed systems in cloud-native environments, including mission-critical network monitoring infrastructure at AWS and fleet management platforms at Verizon Connect. Deep expertise in Python, C#/.NET, and AWS serverless, with proven ownership of system design, performance optimization, microservice migrations, and CI/CD pipelines. Track record of cross-team technical leadership, mentoring engineers, and raising the hiring bar through technical interviews. Certified Scrum Master.
+            </p>
+        </section>
+
+        <!-- Experience -->
+        <section>
+            <h2 class="text-sm font-bold text-blue-400 uppercase tracking-widest border-b border-slate-700 pb-2 mb-5">
+                Professional Experience
+            </h2>
+            <div class="space-y-5">
+
+                <!-- Verizon Connect -->
+                <div class="bg-slate-800 border border-slate-700 border-l-4 border-l-blue-500 rounded-lg p-5">
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 mb-1">
+                        <h3 class="font-semibold text-white">Senior Software Engineer</h3>
+                        <span class="text-gray-500 text-xs whitespace-nowrap">Oct 2023 – Oct 2025</span>
+                    </div>
+                    <p class="text-blue-400 text-sm mb-3">Verizon Connect &middot; Contract &middot; Dublin, Ireland (Remote)</p>
+                    <ul class="space-y-1.5 text-gray-300 text-sm">
+                        <li class="flex gap-2"><span class="text-blue-400 shrink-0 mt-0.5">▸</span><span>Redesigned the Automated Emissions Compliance Framework, refactoring DynamoDB schemas into a generic, extensible data model supporting 2 compliance types and laying the architectural foundation for future regulations without code changes</span></li>
+                        <li class="flex gap-2"><span class="text-blue-400 shrink-0 mt-0.5">▸</span><span>Led sprint planning, task prioritization, and cross-team coordination within the Admin group, owning technical direction for user management, drivers, permissions, vehicles, and internal tooling services</span></li>
+                        <li class="flex gap-2"><span class="text-blue-400 shrink-0 mt-0.5">▸</span><span>Planned and executed migration of multiple microservices from .NET Framework 4.5 to .NET 6/8, eliminating legacy security vulnerabilities and improving startup times and memory efficiency</span></li>
+                        <li class="flex gap-2"><span class="text-blue-400 shrink-0 mt-0.5">▸</span><span>Drove security remediation across the team's service portfolio, upgrading third-party libraries and improving BlackDuck and 42Crunch compliance scores to meet organisational targets</span></li>
+                        <li class="flex gap-2"><span class="text-blue-400 shrink-0 mt-0.5">▸</span><span>Built an AI/ML-powered chat prototype using Amazon Bedrock integrated with internal documentation and live APIs, enabling support teams to query customer data and take direct actions — reducing manual lookup steps from minutes to seconds</span></li>
+                        <li class="flex gap-2"><span class="text-blue-400 shrink-0 mt-0.5">▸</span><span>Enhanced Octopus Deploy CI/CD pipeline steps for automated DynamoDB table provisioning with GSI and LSI support, standardising infrastructure deployment across the team</span></li>
+                    </ul>
+                </div>
+
+                <!-- Dappify -->
+                <div class="bg-slate-800 border border-slate-700 border-l-4 border-l-violet-500 rounded-lg p-5">
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 mb-1">
+                        <h3 class="font-semibold text-white">Co-Founder &amp; CIO</h3>
+                        <span class="text-gray-500 text-xs whitespace-nowrap">May 2022 – Jul 2023</span>
+                    </div>
+                    <p class="text-violet-400 text-sm mb-3">Dappify (now WebStudio) &middot; Dublin, Ireland</p>
+                    <ul class="space-y-1.5 text-gray-300 text-sm">
+                        <li class="flex gap-2"><span class="text-violet-400 shrink-0 mt-0.5">▸</span><span>Co-founded no-code Web3 platform enabling MVP launches in minutes via community-maintained smart templates</span></li>
+                        <li class="flex gap-2"><span class="text-violet-400 shrink-0 mt-0.5">▸</span><span>Led design and development of Solidity smart contracts for NFT marketplaces with automated revenue-sharing</span></li>
+                        <li class="flex gap-2"><span class="text-violet-400 shrink-0 mt-0.5">▸</span><span>Managed customer acquisition and blockchain technology education</span></li>
+                    </ul>
+                </div>
+
+                <!-- DraftKings -->
+                <div class="bg-slate-800 border border-slate-700 border-l-4 border-l-emerald-500 rounded-lg p-5">
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 mb-1">
+                        <h3 class="font-semibold text-white">Senior Software Engineer</h3>
+                        <span class="text-gray-500 text-xs whitespace-nowrap">Nov 2021 – May 2022</span>
+                    </div>
+                    <p class="text-emerald-400 text-sm mb-3">DraftKings Inc. &middot; Dublin, Ireland (Remote)</p>
+                    <ul class="space-y-1.5 text-gray-300 text-sm">
+                        <li class="flex gap-2"><span class="text-emerald-400 shrink-0 mt-0.5">▸</span><span>Led design of an online poker platform using C#, .NET Core, and Microsoft Orleans, building a state machine managing the full table lifecycle (blinds, antes, rake structures) and handling edge cases that caused issues on competitor platforms</span></li>
+                        <li class="flex gap-2"><span class="text-emerald-400 shrink-0 mt-0.5">▸</span><span>Implemented geolocation-based security validations ensuring real-time compliance with jurisdictional gaming regulations</span></li>
+                    </ul>
+                </div>
+
+                <!-- AWS -->
+                <div class="bg-slate-800 border border-slate-700 border-l-4 border-l-amber-400 rounded-lg p-5">
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 mb-1">
+                        <h3 class="font-semibold text-white">Senior Software Engineer</h3>
+                        <span class="text-gray-500 text-xs whitespace-nowrap">Jan 2017 – Nov 2021</span>
+                    </div>
+                    <p class="text-amber-400 text-sm mb-3">Amazon Web Services &middot; Dublin, Ireland</p>
+                    <ul class="space-y-1.5 text-gray-300 text-sm">
+                        <li class="flex gap-2"><span class="text-amber-400 shrink-0 mt-0.5">▸</span><span>Owned design and delivery of a real-time network monitoring system (Python, C++) that detected packet loss, identified system failures, and triangulated the most probable faulty device — significantly reducing mean time to resolution across large-scale infrastructure</span></li>
+                        <li class="flex gap-2"><span class="text-amber-400 shrink-0 mt-0.5">▸</span><span>Boosted alarm coordinator throughput by 3× by designing a competitive job scheduler with built-in fallback, allowing hosts to claim work in parallel while preserving reliability if the scheduler was unreachable</span></li>
+                        <li class="flex gap-2"><span class="text-amber-400 shrink-0 mt-0.5">▸</span><span>Designed and built a cloud-native HR microservice (Lambda, DynamoDB, Kinesis, API Gateway, CloudFormation) managing employee holiday data across multiple countries, replacing a manual spreadsheet process and becoming the single source of truth for HR teams</span></li>
+                        <li class="flex gap-2"><span class="text-amber-400 shrink-0 mt-0.5">▸</span><span>Established CloudWatch dashboards and alerting for production monitoring, enabling proactive incident detection and rapid troubleshooting across network monitoring services</span></li>
+                        <li class="flex gap-2"><span class="text-amber-400 shrink-0 mt-0.5">▸</span><span>Conducted technical interviews spanning coding and system design, contributing to Amazon's hiring bar; served as onboarding buddy creating structured ramp-up plans that accelerated new engineers' productivity</span></li>
+                    </ul>
+                </div>
+
+                <!-- Fonetic -->
+                <div class="bg-slate-800 border border-slate-700 border-l-4 border-l-sky-400 rounded-lg p-5">
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 mb-1">
+                        <h3 class="font-semibold text-white">Senior Back-End Developer</h3>
+                        <span class="text-gray-500 text-xs whitespace-nowrap">Jan 2016 – Dec 2016</span>
+                    </div>
+                    <p class="text-sky-400 text-sm mb-3">Fonetic &middot; Madrid, Spain</p>
+                    <ul class="space-y-1.5 text-gray-300 text-sm">
+                        <li class="flex gap-2"><span class="text-sky-400 shrink-0 mt-0.5">▸</span><span>Designed a scalable API architecture (Web API 2, Dapper, Ninject) and optimised SQL queries; packaged the data access layer for cross-service consumption, accelerating feature development by other teams</span></li>
+                        <li class="flex gap-2"><span class="text-sky-400 shrink-0 mt-0.5">▸</span><span>Configured AI-driven communication monitoring software for financial institutions, designing custom alert rules to detect risk patterns and regulatory compliance breaches in voice and digital communications</span></li>
+                        <li class="flex gap-2"><span class="text-sky-400 shrink-0 mt-0.5">▸</span><span>Collaborated with compliance and risk teams to fine-tune detection parameters, substantially reducing false positives and improving monitoring accuracy</span></li>
+                    </ul>
+                </div>
+
+                <!-- Freelance -->
+                <div class="bg-slate-800 border border-slate-700 border-l-4 border-l-slate-400 rounded-lg p-5">
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 mb-1">
+                        <h3 class="font-semibold text-white">Freelance Developer</h3>
+                        <span class="text-gray-500 text-xs whitespace-nowrap">Nov 2014 – May 2016</span>
+                    </div>
+                    <p class="text-slate-400 text-sm mb-3">Self-Employed &middot; Remote</p>
+                    <ul class="space-y-1.5 text-gray-300 text-sm">
+                        <li class="flex gap-2"><span class="text-slate-400 shrink-0 mt-0.5">▸</span><span>Developed backends for mobile apps using C# Web API 2; built a hostel booking web app and integrated Cloudinary API for image management</span></li>
+                    </ul>
+                </div>
+
+                <!-- UruIT -->
+                <div class="bg-slate-800 border border-slate-700 border-l-4 border-l-teal-400 rounded-lg p-5">
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 mb-1">
+                        <h3 class="font-semibold text-white">Senior Software Developer</h3>
+                        <span class="text-gray-500 text-xs whitespace-nowrap">Dec 2012 – Oct 2014</span>
+                    </div>
+                    <p class="text-teal-400 text-sm mb-3">UruIT &middot; Montevideo, Uruguay</p>
+                    <ul class="space-y-1.5 text-gray-300 text-sm">
+                        <li class="flex gap-2"><span class="text-teal-400 shrink-0 mt-0.5">▸</span><span>Movistar: Built a responsive platform (Foundation, Angular, MVC, Web API) for plan advertising and mobile top-ups</span></li>
+                        <li class="flex gap-2"><span class="text-teal-400 shrink-0 mt-0.5">▸</span><span>Insala: Optimised database design, reducing user search time by 35%; helped transition the team from waterfall to Scrum</span></li>
+                        <li class="flex gap-2"><span class="text-teal-400 shrink-0 mt-0.5">▸</span><span>Developed Kinect-based advertising games (C#, WPF); spoke at the 8th .NET local meetup on game development with Kinect</span></li>
+                    </ul>
+                </div>
+
+                <!-- Entrepidus -->
+                <div class="bg-slate-800 border border-slate-700 border-l-4 border-l-rose-400 rounded-lg p-5">
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 mb-1">
+                        <h3 class="font-semibold text-white">Senior Software Developer</h3>
+                        <span class="text-gray-500 text-xs whitespace-nowrap">Dec 2010 – Aug 2012</span>
+                    </div>
+                    <p class="text-rose-400 text-sm mb-3">Entrepidus &middot; Caracas, Venezuela / Miami, USA</p>
+                    <ul class="space-y-1.5 text-gray-300 text-sm">
+                        <li class="flex gap-2"><span class="text-rose-400 shrink-0 mt-0.5">▸</span><span>Toyota: Led a team of 4 to build a scalable logistics management platform for Caribbean distributors</span></li>
+                        <li class="flex gap-2"><span class="text-rose-400 shrink-0 mt-0.5">▸</span><span>RIM BlackBerry: Developed a LATAM Marketing Materials Centre managing orders, sales, inventory, and IMEI tracking; led a team of 3</span></li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Technical Skills -->
+        <section>
+            <h2 class="text-sm font-bold text-blue-400 uppercase tracking-widest border-b border-slate-700 pb-2 mb-5">
+                Technical Skills
+            </h2>
+            <div class="grid sm:grid-cols-2 gap-6">
+                <div>
+                    <h4 class="text-gray-400 font-medium text-xs uppercase tracking-wider mb-3">Core Languages</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">Python</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">C#</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">.NET 6–8</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">C++</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">JavaScript</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">Java</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">Solidity</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-gray-400 font-medium text-xs uppercase tracking-wider mb-3">AWS Serverless</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">Lambda</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">DynamoDB</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">API Gateway</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">SQS</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">SNS</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">Kinesis</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">CDK</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">Bedrock</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-gray-400 font-medium text-xs uppercase tracking-wider mb-3">Databases</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">DynamoDB</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">PostgreSQL</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">MSSQL</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">Oracle</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">MySQL</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-gray-400 font-medium text-xs uppercase tracking-wider mb-3">Observability &amp; CI/CD</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">CloudWatch</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">Grafana</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">Octopus Deploy</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">CodePipeline</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">BlackDuck</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">42Crunch</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-gray-400 font-medium text-xs uppercase tracking-wider mb-3">Frameworks &amp; Tools</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">ASP.NET</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">Web API</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">MVC</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">MS Orleans</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">Angular</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">WPF</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-gray-400 font-medium text-xs uppercase tracking-wider mb-3">Practices</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">Agile/Scrum</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">SOLID</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">Design Patterns</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">Microservices</span>
+                        <span class="bg-slate-700 px-3 py-1 rounded text-sm">Distributed Systems</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education & Certifications -->
+        <section class="pb-4">
+            <h2 class="text-sm font-bold text-blue-400 uppercase tracking-widest border-b border-slate-700 pb-2 mb-5">
+                Education &amp; Certifications
+            </h2>
+            <div class="space-y-5">
+                <div class="flex flex-col sm:flex-row sm:justify-between gap-1">
+                    <div>
+                        <h3 class="font-semibold text-white text-sm">Master in Security IT &amp; Ethical Hacking</h3>
+                        <p class="text-gray-500 text-sm">EC-Council / CICE &middot; Madrid, Spain</p>
+                    </div>
+                    <span class="text-gray-500 text-xs shrink-0 sm:pt-0.5">2016</span>
+                </div>
+                <div class="flex flex-col sm:flex-row sm:justify-between gap-1">
+                    <div>
+                        <h3 class="font-semibold text-white text-sm">Computer Engineer</h3>
+                        <p class="text-gray-500 text-sm">Universidad Católica Andrés Bello &middot; Caracas, Venezuela</p>
+                    </div>
+                    <span class="text-gray-500 text-xs shrink-0 sm:pt-0.5">2011</span>
+                </div>
+                <div class="flex flex-col sm:flex-row sm:justify-between gap-1">
+                    <div>
+                        <h3 class="font-semibold text-white text-sm">Certified Scrum Master (CSM)</h3>
+                        <p class="text-gray-500 text-sm">Buenos Aires, Argentina</p>
+                    </div>
+                    <span class="text-gray-500 text-xs shrink-0 sm:pt-0.5">2014</span>
+                </div>
+                <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 flex gap-4 items-start">
+                    <span class="text-2xl shrink-0">🏆</span>
+                    <div>
+                        <h3 class="font-semibold text-white text-sm">ACM ICPC Competitor</h3>
+                        <p class="text-gray-500 text-sm mt-1">2006–2009 — Won university programming marathon 4 consecutive years; represented Venezuela in national and international competitions</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 
     <!-- Footer -->
-    <footer class="bg-slate-800 border-t border-slate-700 py-8">
-        <div class="max-w-6xl mx-auto px-4 text-center text-gray-400">
+    <footer class="bg-slate-800 border-t border-slate-700 py-8 mt-4">
+        <div class="max-w-6xl mx-auto px-4 text-center text-gray-500 text-sm">
             <p>&copy; 2026 Tellez Labs. All rights reserved.</p>
         </div>
     </footer>
 
-    <style>
-        @media print {
-            body { background-color: white; color: black; }
-            nav { display: none; }
-            button { display: none; }
-        }
-    </style>
+    <script>
+        const toggle = document.getElementById('navToggle');
+        const menu = document.getElementById('mobileMenu');
+        const iconMenu = document.getElementById('iconMenu');
+        const iconClose = document.getElementById('iconClose');
+        toggle.addEventListener('click', () => {
+            const open = menu.classList.toggle('hidden');
+            iconMenu.classList.toggle('hidden', !open);
+            iconClose.classList.toggle('hidden', open);
+        });
+    </script>
 </body>
 </html>

@@ -1,0 +1,47 @@
+            <!-- ==================== POMODORO ==================== -->
+            <div id="pomodoro" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700">
+                <h2 class="text-xl font-bold mb-6 text-white">🍅 Pomodoro Timer</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Timer -->
+                    <div class="text-center">
+                        <div class="text-7xl font-bold text-blue-400 mb-2" id="pomodoroDisplay">25:00</div>
+                        <p class="text-gray-400 text-sm mb-1" id="pomodoroStatus">Work Session</p>
+                        <p class="text-blue-300 text-xs mb-5 truncate" id="pomodoroCurrentTask">&nbsp;</p>
+                        <div class="flex justify-center gap-3">
+                            <button onclick="pomodoroStart()" id="pomodoroStartBtn" class="bg-green-600 hover:bg-green-700 px-5 py-2 rounded transition text-sm">Start</button>
+                            <button onclick="pomodoroPause()" id="pomodoroPauseBtn" class="bg-yellow-600 hover:bg-yellow-700 px-5 py-2 rounded transition text-sm" style="display:none;">Pause</button>
+                            <button onclick="pomodoroReset()" class="bg-red-600 hover:bg-red-700 px-5 py-2 rounded transition text-sm">Reset</button>
+                        </div>
+                    </div>
+                    <!-- Right panel: tabs -->
+                    <div class="bg-slate-700 rounded-lg overflow-hidden">
+                        <div class="flex border-b border-slate-600">
+                            <button onclick="showPomodoroTab('tasks')" id="pomTabTasks" class="pomo-tab active flex-1 py-2.5 text-xs font-semibold uppercase tracking-wide border-b-2 border-blue-400 text-blue-400 transition">Tasks</button>
+                            <button onclick="showPomodoroTab('settings')" id="pomTabSettings" class="pomo-tab flex-1 py-2.5 text-xs font-semibold uppercase tracking-wide border-b-2 border-transparent text-gray-400 hover:text-white transition">Settings</button>
+                        </div>
+                        <!-- Tasks tab -->
+                        <div id="pomodoroTasksPanel" class="p-4">
+                            <div class="flex gap-2 mb-3">
+                                <input type="text" id="pomTaskInput" placeholder="Add a task..." onkeydown="if(event.key==='Enter')addPomodoroTask()" class="flex-1 bg-slate-600 text-white px-3 py-2 rounded text-sm border border-slate-500 outline-none focus:border-blue-400">
+                                <button onclick="addPomodoroTask()" class="bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded text-sm transition">Add</button>
+                            </div>
+                            <div id="pomodoroTaskList" class="space-y-1.5 max-h-56 overflow-y-auto"></div>
+                        </div>
+                        <!-- Settings tab -->
+                        <div id="pomodoroSettingsPanel" class="p-4" style="display:none;">
+                            <div class="space-y-3">
+                                <div>
+                                    <label class="block text-xs text-gray-400 mb-1.5">Work Duration (min)</label>
+                                    <input type="number" id="pomodoroWork" value="25" min="1" max="60" class="w-full bg-slate-600 text-white px-3 py-2 rounded text-sm border border-slate-500 outline-none focus:border-blue-400">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-400 mb-1.5">Break Duration (min)</label>
+                                    <input type="number" id="pomodoroBreak" value="5" min="1" max="30" class="w-full bg-slate-600 text-white px-3 py-2 rounded text-sm border border-slate-500 outline-none focus:border-blue-400">
+                                </div>
+                                <button onclick="pomodoroApplySettings()" class="w-full bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition text-sm">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+

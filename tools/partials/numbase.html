@@ -1,0 +1,40 @@
+            <!-- ==================== NUMBER BASE ==================== -->
+            <div id="numbase" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">🔢 Number Base Converter</h2>
+                <div class="mb-5">
+                    <label class="block text-xs text-gray-400 mb-2">Input</label>
+                    <div class="flex gap-3">
+                        <input type="text" id="numInput" oninput="convertBase()" placeholder="Enter a number..." class="flex-1 bg-slate-700 text-white px-4 py-2 rounded border border-slate-600 focus:border-blue-400 outline-none font-mono text-sm">
+                        <select id="numInputBase" onchange="convertBase()" class="bg-slate-700 text-white px-3 py-2 rounded border border-slate-600 outline-none text-sm">
+                            <option value="10">Decimal</option>
+                            <option value="16">Hexadecimal</option>
+                            <option value="2">Binary</option>
+                            <option value="8">Octal</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex items-center gap-3 bg-slate-700 rounded-lg p-3">
+                        <span class="text-gray-400 text-xs w-28 shrink-0">Decimal (10)</span>
+                        <input id="numDec" readonly class="flex-1 bg-transparent text-white text-sm font-mono outline-none" placeholder="—">
+                        <button onclick="copyText('numDec')" class="text-xs px-2 py-1 rounded bg-slate-600 hover:bg-slate-500 transition text-gray-300 hover:text-white">Copy</button>
+                    </div>
+                    <div class="flex items-center gap-3 bg-slate-700 rounded-lg p-3">
+                        <span class="text-gray-400 text-xs w-28 shrink-0">Hexadecimal (16)</span>
+                        <input id="numHex" readonly class="flex-1 bg-transparent text-white text-sm font-mono outline-none" placeholder="—">
+                        <button onclick="copyText('numHex')" class="text-xs px-2 py-1 rounded bg-slate-600 hover:bg-slate-500 transition text-gray-300 hover:text-white">Copy</button>
+                    </div>
+                    <div class="flex items-center gap-3 bg-slate-700 rounded-lg p-3">
+                        <span class="text-gray-400 text-xs w-28 shrink-0">Binary (2)</span>
+                        <input id="numBin" readonly class="flex-1 bg-transparent text-white text-sm font-mono outline-none truncate" placeholder="—">
+                        <button onclick="copyText('numBin')" class="text-xs px-2 py-1 rounded bg-slate-600 hover:bg-slate-500 transition text-gray-300 hover:text-white">Copy</button>
+                    </div>
+                    <div class="flex items-center gap-3 bg-slate-700 rounded-lg p-3">
+                        <span class="text-gray-400 text-xs w-28 shrink-0">Octal (8)</span>
+                        <input id="numOct" readonly class="flex-1 bg-transparent text-white text-sm font-mono outline-none" placeholder="—">
+                        <button onclick="copyText('numOct')" class="text-xs px-2 py-1 rounded bg-slate-600 hover:bg-slate-500 transition text-gray-300 hover:text-white">Copy</button>
+                    </div>
+                </div>
+                <div id="numError" class="mt-3 text-red-400 text-sm" style="display:none;"></div>
+            </div>
+

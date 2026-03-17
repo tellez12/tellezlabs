@@ -1,0 +1,29 @@
+            <!-- ==================== REGEX ==================== -->
+            <div id="regex" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">🔍 Regex Tester</h2>
+                <div class="space-y-4">
+                    <div class="flex gap-3">
+                        <div class="flex-1">
+                            <label class="block text-xs text-gray-400 mb-2">Pattern</label>
+                            <input type="text" id="regexPattern" placeholder="e.g. \d{3}-\d{4}" oninput="testRegex()" class="w-full bg-slate-700 text-white px-4 py-2 rounded border border-slate-600 focus:border-blue-400 outline-none font-mono text-sm">
+                        </div>
+                        <div class="w-28">
+                            <label class="block text-xs text-gray-400 mb-2">Flags</label>
+                            <input type="text" id="regexFlags" value="g" oninput="testRegex()" class="w-full bg-slate-700 text-white px-4 py-2 rounded border border-slate-600 focus:border-blue-400 outline-none font-mono text-sm">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Test String</label>
+                        <textarea id="regexInput" placeholder="Enter text to test against..." oninput="testRegex()" class="w-full h-32 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none text-sm resize-none"></textarea>
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="text-xs text-gray-400">Matches</label>
+                            <span id="regexMatchCount" class="text-xs text-blue-400 font-mono"></span>
+                        </div>
+                        <div id="regexOutput" class="bg-slate-700 rounded-lg p-4 min-h-12 font-mono text-sm text-gray-300 whitespace-pre-wrap"></div>
+                    </div>
+                    <div id="regexError" class="text-red-400 text-sm" style="display:none;"></div>
+                </div>
+            </div>
+

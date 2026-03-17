@@ -1,0 +1,28 @@
+            <!-- ==================== TIMESTAMP ==================== -->
+            <div id="timestamp" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">🕐 Unix Timestamp Converter</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="space-y-4">
+                        <h3 class="text-blue-400 text-xs font-semibold uppercase tracking-wide">Unix → Human Date</h3>
+                        <input type="text" id="tsInput" placeholder="e.g. 1700000000" onkeydown="if(event.key==='Enter')convertTimestamp()" class="w-full bg-slate-700 text-white px-4 py-2 rounded border border-slate-600 focus:border-blue-400 outline-none font-mono text-sm">
+                        <button onclick="convertTimestamp()" class="bg-blue-600 hover:bg-blue-700 px-5 py-2 rounded transition text-sm">Convert</button>
+                        <div id="tsOutput" class="bg-slate-700 rounded-lg p-4 space-y-2 text-xs" style="display:none;">
+                            <p class="text-gray-400">UTC: <span id="tsUTC" class="text-white font-mono"></span></p>
+                            <p class="text-gray-400">Local: <span id="tsLocal" class="text-white font-mono"></span></p>
+                            <p class="text-gray-400">ISO 8601: <span id="tsISO" class="text-white font-mono"></span></p>
+                            <p class="text-gray-400">Relative: <span id="tsRelative" class="text-blue-400 font-mono"></span></p>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <h3 class="text-blue-400 text-xs font-semibold uppercase tracking-wide">Current Time</h3>
+                        <div class="bg-slate-700 rounded-lg p-4 space-y-2 text-xs">
+                            <p class="text-gray-400">Unix (s): <span id="nowUnixS" class="text-white font-mono"></span></p>
+                            <p class="text-gray-400">Unix (ms): <span id="nowUnixMs" class="text-white font-mono"></span></p>
+                            <p class="text-gray-400">UTC: <span id="nowUTC" class="text-white font-mono"></span></p>
+                            <p class="text-gray-400">ISO 8601: <span id="nowISO" class="text-white font-mono"></span></p>
+                        </div>
+                        <button onclick="copyNowTimestamp()" class="bg-slate-600 hover:bg-slate-500 px-4 py-2 rounded transition text-sm">Copy Unix (s)</button>
+                    </div>
+                </div>
+            </div>
+

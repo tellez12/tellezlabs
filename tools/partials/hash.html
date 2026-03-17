@@ -1,0 +1,29 @@
+            <!-- ==================== HASH ==================== -->
+            <div id="hash" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">🔑 Hash Generator</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Input Text</label>
+                        <textarea id="hashInput" placeholder="Type or paste text to hash..." oninput="hashOnChange()" class="w-full h-28 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none resize-none text-sm"></textarea>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-3 bg-slate-700 rounded-lg p-3">
+                            <span class="text-gray-400 text-xs w-16 shrink-0 font-mono">SHA-256</span>
+                            <input id="hashSHA256" readonly class="flex-1 bg-transparent text-white text-xs font-mono outline-none truncate" placeholder="—">
+                            <button onclick="copyText('hashSHA256')" class="shrink-0 text-xs px-2 py-1 rounded bg-slate-600 hover:bg-slate-500 transition text-gray-300 hover:text-white">Copy</button>
+                        </div>
+                        <div class="flex items-center gap-3 bg-slate-700 rounded-lg p-3">
+                            <span class="text-gray-400 text-xs w-16 shrink-0 font-mono">SHA-1</span>
+                            <input id="hashSHA1" readonly class="flex-1 bg-transparent text-white text-xs font-mono outline-none truncate" placeholder="—">
+                            <button onclick="copyText('hashSHA1')" class="shrink-0 text-xs px-2 py-1 rounded bg-slate-600 hover:bg-slate-500 transition text-gray-300 hover:text-white">Copy</button>
+                        </div>
+                        <div class="flex items-center gap-3 bg-slate-700 rounded-lg p-3">
+                            <span class="text-gray-400 text-xs w-16 shrink-0 font-mono">SHA-512</span>
+                            <input id="hashSHA512" readonly class="flex-1 bg-transparent text-white text-xs font-mono outline-none truncate" placeholder="—">
+                            <button onclick="copyText('hashSHA512')" class="shrink-0 text-xs px-2 py-1 rounded bg-slate-600 hover:bg-slate-500 transition text-gray-300 hover:text-white">Copy</button>
+                        </div>
+                    </div>
+                    <p class="text-gray-500 text-xs">Hashing is performed locally via Web Crypto API.</p>
+                </div>
+            </div>
+

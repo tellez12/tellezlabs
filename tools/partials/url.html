@@ -1,0 +1,20 @@
+            <!-- ==================== URL ==================== -->
+            <div id="url" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">🔗 URL Encoder/Decoder</h2>
+                <div class="grid md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Input</label>
+                        <textarea id="urlInput" placeholder="Paste URL or text..." class="w-full h-44 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none resize-none text-sm"></textarea>
+                        <div class="flex gap-2 mt-2">
+                            <button onclick="encodeURL()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition text-sm">Encode</button>
+                            <button onclick="decodeURL()" class="bg-slate-600 hover:bg-slate-500 px-4 py-2 rounded transition text-sm">Decode</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Result</label>
+                        <textarea id="urlOutput" readonly class="w-full h-44 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 outline-none resize-none text-sm"></textarea>
+                        <button onclick="copyToClipboard('urlOutput')" class="w-full mt-2 bg-slate-600 hover:bg-slate-500 px-4 py-2 rounded transition text-sm">Copy</button>
+                    </div>
+                </div>
+            </div>
+

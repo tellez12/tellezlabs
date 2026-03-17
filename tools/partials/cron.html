@@ -1,0 +1,21 @@
+            <!-- ==================== CRON ==================== -->
+            <div id="cron" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">🕐 Cron Explainer</h2>
+                <div class="mb-5">
+                    <label class="block text-xs text-gray-400 mb-2">Cron Expression</label>
+                    <div class="flex gap-3">
+                        <input type="text" id="cronInput" placeholder="*/5 * * * *" oninput="explainCron()" class="flex-1 bg-slate-700 text-white px-4 py-2.5 rounded border border-slate-600 focus:border-blue-400 outline-none font-mono text-sm">
+                        <button onclick="setCronExample()" class="bg-slate-600 hover:bg-slate-500 px-4 py-2 rounded transition text-sm">Example</button>
+                    </div>
+                    <p class="text-gray-500 text-xs mt-2">Supports 5-field (min hr dom mon dow) and 6-field (sec min hr dom mon dow)</p>
+                </div>
+                <div id="cronError" class="text-red-400 text-sm mb-4" style="display:none;"></div>
+                <div id="cronFields" class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-6" style="display:none;"></div>
+                <div id="cronSummary" class="bg-slate-700 rounded-lg p-4 mb-5 text-sm" style="display:none;"></div>
+                <div id="cronNextRuns" style="display:none;">
+                    <h3 class="text-xs font-semibold text-blue-400 uppercase tracking-wide mb-3">Next 5 Runs</h3>
+                    <div id="cronRunsList" class="space-y-1.5"></div>
+                </div>
+            </div>
+
+        </div>

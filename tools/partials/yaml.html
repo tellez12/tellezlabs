@@ -1,0 +1,21 @@
+            <!-- ==================== YAML ↔ JSON ==================== -->
+            <div id="yaml" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">↔️ YAML ↔ JSON</h2>
+                <div class="grid md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Input</label>
+                        <textarea id="yamlInput" placeholder="Paste YAML or JSON..." class="w-full h-64 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none font-mono text-sm resize-none"></textarea>
+                        <div class="flex gap-2 mt-2">
+                            <button onclick="yamlToJson()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition text-sm">YAML → JSON</button>
+                            <button onclick="jsonToYaml()" class="bg-slate-600 hover:bg-slate-500 px-4 py-2 rounded transition text-sm">JSON → YAML</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Output</label>
+                        <textarea id="yamlOutput" readonly class="w-full h-64 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 outline-none font-mono text-sm resize-none"></textarea>
+                        <button onclick="copyToClipboard('yamlOutput')" class="w-full mt-2 bg-slate-600 hover:bg-slate-500 px-4 py-2 rounded transition text-sm">Copy</button>
+                    </div>
+                </div>
+                <div id="yamlError" class="mt-3 text-red-400 text-sm" style="display:none;"></div>
+            </div>
+

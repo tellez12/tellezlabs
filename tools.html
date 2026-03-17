@@ -3,163 +3,675 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tools - Tellez Labs</title>
+    <title>Tools - Luis Tellez</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@9/marked.min.js"></script>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' font-weight='bold' fill='%233b82f6'>T</text></svg>">
+    <style>
+        .sidebar-item.active { background-color: rgb(30 58 138 / 0.3); color: #93c5fd; border-left-color: #3b82f6; }
+        .pomo-tab.active { color: #93c5fd; border-bottom-color: #3b82f6; }
+        .diff-added { background-color: rgb(34 197 94 / 0.15); color: #86efac; }
+        .diff-removed { background-color: rgb(239 68 68 / 0.15); color: #fca5a5; }
+        .diff-same { color: #94a3b8; }
+        #markdownPreview h1,#markdownPreview h2,#markdownPreview h3 { color: #f1f5f9; font-weight: 700; margin: 1rem 0 0.5rem; }
+        #markdownPreview h1 { font-size: 1.5rem; }
+        #markdownPreview h2 { font-size: 1.25rem; }
+        #markdownPreview h3 { font-size: 1.1rem; }
+        #markdownPreview p { margin: 0.5rem 0; color: #cbd5e1; }
+        #markdownPreview ul,#markdownPreview ol { margin: 0.5rem 0 0.5rem 1.5rem; color: #cbd5e1; }
+        #markdownPreview li { margin: 0.25rem 0; }
+        #markdownPreview code { background: #334155; padding: 0.1rem 0.3rem; border-radius: 3px; font-family: monospace; font-size: 0.85em; color: #93c5fd; }
+        #markdownPreview pre { background: #1e293b; padding: 1rem; border-radius: 6px; overflow-x: auto; margin: 0.75rem 0; }
+        #markdownPreview pre code { background: none; padding: 0; color: #e2e8f0; }
+        #markdownPreview blockquote { border-left: 3px solid #3b82f6; padding-left: 1rem; color: #94a3b8; margin: 0.75rem 0; }
+        #markdownPreview a { color: #60a5fa; text-decoration: underline; }
+        #markdownPreview table { border-collapse: collapse; width: 100%; margin: 0.75rem 0; }
+        #markdownPreview th,#markdownPreview td { border: 1px solid #334155; padding: 0.4rem 0.75rem; color: #cbd5e1; }
+        #markdownPreview th { background: #1e293b; color: #f1f5f9; }
+        #markdownPreview hr { border-color: #334155; margin: 1rem 0; }
+    </style>
 </head>
 <body class="bg-slate-900 text-gray-100">
+
+    <!-- Toast -->
+    <div id="toast" class="fixed top-5 right-5 z-50 text-white px-5 py-3 rounded-lg shadow-lg text-sm font-medium transition-all duration-300 opacity-0 pointer-events-none bg-green-600">
+        ✓ <span id="toastMessage">Copied!</span>
+    </div>
+
     <!-- Navigation -->
     <nav class="bg-slate-800 border-b border-slate-700 sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-            <div class="text-2xl font-bold text-blue-400">
-                <a href="index.html">Tellez Labs</a>
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-full overflow-hidden border border-blue-500/60 shrink-0">
+                    <img src="badge2.jpg" alt="Luis Tellez" class="w-full h-full object-cover object-top">
+                </div>
+                <div class="leading-tight">
+                    <div class="text-sm font-semibold text-white">Luis Tellez</div>
+                    <div class="text-xs text-gray-500 hidden sm:block">Senior Software Engineer</div>
+                </div>
+            </a>
+            <div class="hidden sm:flex items-center space-x-6 text-sm">
+                <a href="index.html" class="hover:text-blue-400 transition text-gray-300">About</a>
+                <a href="resume.html" class="hover:text-blue-400 transition text-gray-300">Resume</a>
+                <a href="tools.html" class="text-blue-400 font-semibold">Tools</a>
             </div>
-            <div class="space-x-6">
-                <a href="index.html" class="hover:text-blue-400 transition">About</a>
-                <a href="resume.html" class="hover:text-blue-400 transition">Resume</a>
-                <a href="tools.html" class="hover:text-blue-400 transition">Tools</a>
-            </div>
+            <button id="navToggle" class="sm:hidden text-gray-300 hover:text-white" aria-label="Menu">
+                <svg id="iconMenu" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                <svg id="iconClose" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <div id="mobileMenu" class="hidden sm:hidden bg-slate-800 border-t border-slate-700 px-4 pb-4 space-y-1">
+            <a href="index.html" class="block py-2 text-gray-300 hover:text-blue-400 transition text-sm">About</a>
+            <a href="resume.html" class="block py-2 text-gray-300 hover:text-blue-400 transition text-sm">Resume</a>
+            <a href="tools.html" class="block py-2 text-blue-400 font-semibold text-sm">Tools</a>
         </div>
     </nav>
 
     <!-- Header -->
-    <section class="bg-gradient-to-br from-slate-800 to-slate-900 py-12 border-b border-slate-700">
-        <div class="max-w-6xl mx-auto px-4">
-            <h1 class="text-4xl font-bold mb-4 text-white">Developer Tools</h1>
-            <p class="text-gray-300">A collection of useful utilities to boost your productivity</p>
+    <section class="bg-gradient-to-br from-slate-800 to-slate-900 py-8 border-b border-slate-700">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row sm:items-end gap-4">
+            <div class="flex-1">
+                <h1 class="text-2xl font-bold text-white mb-1">Developer Tools</h1>
+                <p class="text-gray-500 text-sm">Browser-local utilities — no data leaves your machine</p>
+            </div>
+            <div class="sm:hidden">
+                <select id="mobilePicker" onchange="showTool(this.value)" class="w-full bg-slate-700 border border-slate-600 text-white px-3 py-2 rounded text-sm outline-none">
+                    <optgroup label="⏱ Productivity">
+                        <option value="pomodoro">🍅 Pomodoro Timer</option>
+                    </optgroup>
+                    <optgroup label="📝 Encode / Decode">
+                        <option value="json">📋 JSON Formatter</option>
+                        <option value="base64">🔀 Base64</option>
+                        <option value="url">🔗 URL Encoder/Decoder</option>
+                        <option value="yaml">↔️ YAML ↔ JSON</option>
+                    </optgroup>
+                    <optgroup label="🔐 Security">
+                        <option value="jwt">🔐 JWT Decoder</option>
+                        <option value="hash">🔑 Hash Generator</option>
+                        <option value="password">🔒 Password Generator</option>
+                    </optgroup>
+                    <optgroup label="🔢 Converters">
+                        <option value="uuid">🆔 UUID Generator</option>
+                        <option value="timestamp">🕐 Timestamp</option>
+                        <option value="numbase">🔢 Number Base</option>
+                        <option value="color">🎨 Color</option>
+                    </optgroup>
+                    <optgroup label="✏️ Text & Format">
+                        <option value="caseconv">🔡 Case Converter</option>
+                        <option value="strutils">📏 String Utilities</option>
+                        <option value="markdown">📝 Markdown Preview</option>
+                    </optgroup>
+                    <optgroup label="🔍 Testing & Analysis">
+                        <option value="regex">🔍 Regex Tester</option>
+                        <option value="diff">📄 Text Diff</option>
+                        <option value="cron">🕐 Cron Explainer</option>
+                    </optgroup>
+                </select>
+            </div>
         </div>
     </section>
 
-    <!-- Tools Container -->
-    <section class="py-12">
-        <div class="max-w-6xl mx-auto px-4">
-            <!-- Tool Selector -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-                <button onclick="showTool('pomodoro')" class="tool-btn bg-blue-600 hover:bg-blue-700 px-4 py-3 rounded transition font-semibold" data-tool="pomodoro">
-                    🍅 Pomodoro
-                </button>
-                <button onclick="showTool('jwt')" class="tool-btn bg-slate-700 hover:bg-slate-600 px-4 py-3 rounded transition font-semibold" data-tool="jwt">
-                    🔐 JWT Decoder
-                </button>
-                <button onclick="showTool('url')" class="tool-btn bg-slate-700 hover:bg-slate-600 px-4 py-3 rounded transition font-semibold" data-tool="url">
-                    🔗 URL Decoder
-                </button>
-                <button onclick="showTool('base64')" class="tool-btn bg-slate-700 hover:bg-slate-600 px-4 py-3 rounded transition font-semibold" data-tool="base64">
-                    🔀 Base64
-                </button>
-            </div>
+    <!-- Layout -->
+    <div class="max-w-6xl mx-auto px-4 py-8 flex gap-6 items-start">
 
-            <!-- Tools Content -->
-            <div class="space-y-8">
-                <!-- Pomodoro Tool -->
-                <div id="pomodoro" class="tool-content bg-slate-800 rounded-lg p-8 border border-slate-700">
-                    <h2 class="text-2xl font-bold mb-6 text-white">🍅 Pomodoro Timer</h2>
-                    <div class="grid md:grid-cols-2 gap-8">
-                        <div>
-                            <div class="text-center mb-6">
-                                <div class="text-7xl font-bold text-blue-400 mb-4" id="pomodoroDisplay">25:00</div>
-                                <p class="text-gray-300 mb-4" id="pomodoroStatus">Work Session</p>
-                                <div class="space-x-4">
-                                    <button onclick="pomodoroStart()" id="pomodoroStartBtn" class="bg-green-600 hover:bg-green-700 px-6 py-2 rounded transition">Start</button>
-                                    <button onclick="pomodoroPause()" id="pomodoroPauseBtn" class="bg-yellow-600 hover:bg-yellow-700 px-6 py-2 rounded transition" style="display:none;">Pause</button>
-                                    <button onclick="pomodoroReset()" class="bg-red-600 hover:bg-red-700 px-6 py-2 rounded transition">Reset</button>
-                                </div>
-                            </div>
+        <!-- Sidebar -->
+        <aside class="hidden sm:block w-48 shrink-0 sticky top-20">
+            <nav class="space-y-5 text-sm">
+
+                <div>
+                    <p class="text-gray-500 text-xs font-semibold uppercase tracking-wider px-3 mb-1">⏱ Productivity</p>
+                    <button onclick="showTool('pomodoro')" data-tool="pomodoro" class="sidebar-item active w-full text-left px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">🍅 Pomodoro Timer</button>
+                </div>
+
+                <div>
+                    <p class="text-gray-500 text-xs font-semibold uppercase tracking-wider px-3 mb-1">📝 Encode / Decode</p>
+                    <button onclick="showTool('json')" data-tool="json" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">📋 JSON Formatter</button>
+                    <button onclick="showTool('base64')" data-tool="base64" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">🔀 Base64</button>
+                    <button onclick="showTool('url')" data-tool="url" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">🔗 URL Encoder/Decoder</button>
+                    <button onclick="showTool('yaml')" data-tool="yaml" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">↔️ YAML ↔ JSON</button>
+                </div>
+
+                <div>
+                    <p class="text-gray-500 text-xs font-semibold uppercase tracking-wider px-3 mb-1">🔐 Security</p>
+                    <button onclick="showTool('jwt')" data-tool="jwt" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">🔐 JWT Decoder</button>
+                    <button onclick="showTool('hash')" data-tool="hash" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">🔑 Hash Generator</button>
+                    <button onclick="showTool('password')" data-tool="password" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">🔒 Password Generator</button>
+                </div>
+
+                <div>
+                    <p class="text-gray-500 text-xs font-semibold uppercase tracking-wider px-3 mb-1">🔢 Converters</p>
+                    <button onclick="showTool('uuid')" data-tool="uuid" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">🆔 UUID Generator</button>
+                    <button onclick="showTool('timestamp')" data-tool="timestamp" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">🕐 Timestamp</button>
+                    <button onclick="showTool('numbase')" data-tool="numbase" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">🔢 Number Base</button>
+                    <button onclick="showTool('color')" data-tool="color" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">🎨 Color</button>
+                </div>
+
+                <div>
+                    <p class="text-gray-500 text-xs font-semibold uppercase tracking-wider px-3 mb-1">✏️ Text & Format</p>
+                    <button onclick="showTool('caseconv')" data-tool="caseconv" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">🔡 Case Converter</button>
+                    <button onclick="showTool('strutils')" data-tool="strutils" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">📏 String Utilities</button>
+                    <button onclick="showTool('markdown')" data-tool="markdown" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">📝 Markdown Preview</button>
+                </div>
+
+                <div>
+                    <p class="text-gray-500 text-xs font-semibold uppercase tracking-wider px-3 mb-1">🔍 Testing & Analysis</p>
+                    <button onclick="showTool('regex')" data-tool="regex" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">🔍 Regex Tester</button>
+                    <button onclick="showTool('diff')" data-tool="diff" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">📄 Text Diff</button>
+                    <button onclick="showTool('cron')" data-tool="cron" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">🕐 Cron Explainer</button>
+                </div>
+
+            </nav>
+        </aside>
+
+        <!-- Tool Content -->
+        <div class="flex-1 min-w-0">
+
+            <!-- ==================== POMODORO ==================== -->
+            <div id="pomodoro" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700">
+                <h2 class="text-xl font-bold mb-6 text-white">🍅 Pomodoro Timer</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Timer -->
+                    <div class="text-center">
+                        <div class="text-7xl font-bold text-blue-400 mb-2" id="pomodoroDisplay">25:00</div>
+                        <p class="text-gray-400 text-sm mb-1" id="pomodoroStatus">Work Session</p>
+                        <p class="text-blue-300 text-xs mb-5 truncate" id="pomodoroCurrentTask">&nbsp;</p>
+                        <div class="flex justify-center gap-3">
+                            <button onclick="pomodoroStart()" id="pomodoroStartBtn" class="bg-green-600 hover:bg-green-700 px-5 py-2 rounded transition text-sm">Start</button>
+                            <button onclick="pomodoroPause()" id="pomodoroPauseBtn" class="bg-yellow-600 hover:bg-yellow-700 px-5 py-2 rounded transition text-sm" style="display:none;">Pause</button>
+                            <button onclick="pomodoroReset()" class="bg-red-600 hover:bg-red-700 px-5 py-2 rounded transition text-sm">Reset</button>
                         </div>
-                        <div class="bg-slate-700 rounded p-6">
-                            <h3 class="text-lg font-semibold mb-4 text-blue-400">Settings</h3>
-                            <div class="space-y-4">
+                    </div>
+                    <!-- Right panel: tabs -->
+                    <div class="bg-slate-700 rounded-lg overflow-hidden">
+                        <div class="flex border-b border-slate-600">
+                            <button onclick="showPomodoroTab('tasks')" id="pomTabTasks" class="pomo-tab active flex-1 py-2.5 text-xs font-semibold uppercase tracking-wide border-b-2 border-blue-400 text-blue-400 transition">Tasks</button>
+                            <button onclick="showPomodoroTab('settings')" id="pomTabSettings" class="pomo-tab flex-1 py-2.5 text-xs font-semibold uppercase tracking-wide border-b-2 border-transparent text-gray-400 hover:text-white transition">Settings</button>
+                        </div>
+                        <!-- Tasks tab -->
+                        <div id="pomodoroTasksPanel" class="p-4">
+                            <div class="flex gap-2 mb-3">
+                                <input type="text" id="pomTaskInput" placeholder="Add a task..." onkeydown="if(event.key==='Enter')addPomodoroTask()" class="flex-1 bg-slate-600 text-white px-3 py-2 rounded text-sm border border-slate-500 outline-none focus:border-blue-400">
+                                <button onclick="addPomodoroTask()" class="bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded text-sm transition">Add</button>
+                            </div>
+                            <div id="pomodoroTaskList" class="space-y-1.5 max-h-56 overflow-y-auto"></div>
+                        </div>
+                        <!-- Settings tab -->
+                        <div id="pomodoroSettingsPanel" class="p-4" style="display:none;">
+                            <div class="space-y-3">
                                 <div>
-                                    <label class="block text-sm text-gray-300 mb-2">Work Duration (minutes)</label>
-                                    <input type="number" id="pomodoroWork" value="25" min="1" max="60" class="w-full bg-slate-600 text-white px-3 py-2 rounded">
+                                    <label class="block text-xs text-gray-400 mb-1.5">Work Duration (min)</label>
+                                    <input type="number" id="pomodoroWork" value="25" min="1" max="60" class="w-full bg-slate-600 text-white px-3 py-2 rounded text-sm border border-slate-500 outline-none focus:border-blue-400">
                                 </div>
                                 <div>
-                                    <label class="block text-sm text-gray-300 mb-2">Break Duration (minutes)</label>
-                                    <input type="number" id="pomodoroBreak" value="5" min="1" max="30" class="w-full bg-slate-600 text-white px-3 py-2 rounded">
+                                    <label class="block text-xs text-gray-400 mb-1.5">Break Duration (min)</label>
+                                    <input type="number" id="pomodoroBreak" value="5" min="1" max="30" class="w-full bg-slate-600 text-white px-3 py-2 rounded text-sm border border-slate-500 outline-none focus:border-blue-400">
                                 </div>
-                                <button onclick="pomodoroApplySettings()" class="w-full bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition">Apply Settings</button>
+                                <button onclick="pomodoroApplySettings()" class="w-full bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition text-sm">Apply</button>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- JWT Decoder Tool -->
-                <div id="jwt" class="tool-content bg-slate-800 rounded-lg p-8 border border-slate-700" style="display:none;">
-                    <h2 class="text-2xl font-bold mb-6 text-white">🔐 JWT Decoder</h2>
+
+            <!-- ==================== JSON ==================== -->
+            <div id="json" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">📋 JSON Formatter</h2>
+                <div class="grid md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Input JSON</label>
+                        <textarea id="jsonInput" placeholder="Paste raw or minified JSON..." class="w-full h-64 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none font-mono text-sm resize-none"></textarea>
+                        <div class="flex gap-2 mt-2">
+                            <button onclick="formatJSON()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition text-sm">Prettify</button>
+                            <button onclick="minifyJSON()" class="bg-slate-600 hover:bg-slate-500 px-4 py-2 rounded transition text-sm">Minify</button>
+                            <button onclick="document.getElementById('jsonInput').value='';document.getElementById('jsonOutput').value='';document.getElementById('jsonError').style.display='none';" class="bg-slate-600 hover:bg-slate-500 px-4 py-2 rounded transition text-sm">Clear</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Output</label>
+                        <textarea id="jsonOutput" readonly class="w-full h-64 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 outline-none font-mono text-sm resize-none"></textarea>
+                        <button onclick="copyToClipboard('jsonOutput')" class="w-full mt-2 bg-slate-600 hover:bg-slate-500 px-4 py-2 rounded transition text-sm">Copy</button>
+                    </div>
+                </div>
+                <div id="jsonError" class="mt-3 text-red-400 text-sm" style="display:none;"></div>
+            </div>
+
+
+            <!-- ==================== BASE64 ==================== -->
+            <div id="base64" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">🔀 Base64 Encoder/Decoder</h2>
+                <div class="grid md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Input</label>
+                        <textarea id="base64Input" placeholder="Paste text or base64..." class="w-full h-44 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none resize-none text-sm"></textarea>
+                        <div class="flex gap-2 mt-2">
+                            <button onclick="encodeBase64()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition text-sm">Encode</button>
+                            <button onclick="decodeBase64()" class="bg-slate-600 hover:bg-slate-500 px-4 py-2 rounded transition text-sm">Decode</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Output</label>
+                        <textarea id="base64Output" readonly class="w-full h-44 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 outline-none resize-none text-sm"></textarea>
+                        <button onclick="copyToClipboard('base64Output')" class="w-full mt-2 bg-slate-600 hover:bg-slate-500 px-4 py-2 rounded transition text-sm">Copy</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ==================== URL ==================== -->
+            <div id="url" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">🔗 URL Encoder/Decoder</h2>
+                <div class="grid md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Input</label>
+                        <textarea id="urlInput" placeholder="Paste URL or text..." class="w-full h-44 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none resize-none text-sm"></textarea>
+                        <div class="flex gap-2 mt-2">
+                            <button onclick="encodeURL()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition text-sm">Encode</button>
+                            <button onclick="decodeURL()" class="bg-slate-600 hover:bg-slate-500 px-4 py-2 rounded transition text-sm">Decode</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Result</label>
+                        <textarea id="urlOutput" readonly class="w-full h-44 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 outline-none resize-none text-sm"></textarea>
+                        <button onclick="copyToClipboard('urlOutput')" class="w-full mt-2 bg-slate-600 hover:bg-slate-500 px-4 py-2 rounded transition text-sm">Copy</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ==================== YAML ↔ JSON ==================== -->
+            <div id="yaml" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">↔️ YAML ↔ JSON</h2>
+                <div class="grid md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Input</label>
+                        <textarea id="yamlInput" placeholder="Paste YAML or JSON..." class="w-full h-64 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none font-mono text-sm resize-none"></textarea>
+                        <div class="flex gap-2 mt-2">
+                            <button onclick="yamlToJson()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition text-sm">YAML → JSON</button>
+                            <button onclick="jsonToYaml()" class="bg-slate-600 hover:bg-slate-500 px-4 py-2 rounded transition text-sm">JSON → YAML</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Output</label>
+                        <textarea id="yamlOutput" readonly class="w-full h-64 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 outline-none font-mono text-sm resize-none"></textarea>
+                        <button onclick="copyToClipboard('yamlOutput')" class="w-full mt-2 bg-slate-600 hover:bg-slate-500 px-4 py-2 rounded transition text-sm">Copy</button>
+                    </div>
+                </div>
+                <div id="yamlError" class="mt-3 text-red-400 text-sm" style="display:none;"></div>
+            </div>
+
+
+            <!-- ==================== JWT ==================== -->
+            <div id="jwt" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">🔐 JWT Decoder</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">JWT Token</label>
+                        <textarea id="jwtInput" placeholder="Paste your JWT token here..." class="w-full h-28 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none font-mono text-sm resize-none"></textarea>
+                    </div>
+                    <button onclick="decodeJWT()" class="bg-blue-600 hover:bg-blue-700 px-5 py-2 rounded transition text-sm">Decode</button>
+                    <div id="jwtOutput" style="display:none;" class="space-y-4">
+                        <div class="bg-slate-700 rounded-lg p-4">
+                            <h3 class="text-blue-400 text-xs font-semibold uppercase tracking-wide mb-2">Header</h3>
+                            <pre id="jwtHeader" class="bg-slate-600 p-3 rounded text-sm overflow-auto font-mono text-gray-200"></pre>
+                        </div>
+                        <div class="bg-slate-700 rounded-lg p-4">
+                            <h3 class="text-blue-400 text-xs font-semibold uppercase tracking-wide mb-2">Payload</h3>
+                            <pre id="jwtPayload" class="bg-slate-600 p-3 rounded text-sm overflow-auto font-mono text-gray-200"></pre>
+                        </div>
+                        <p class="text-yellow-400 text-xs">⚠️ Always verify the JWT signature on your backend. Never trust unverified tokens.</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ==================== HASH ==================== -->
+            <div id="hash" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">🔑 Hash Generator</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Input Text</label>
+                        <textarea id="hashInput" placeholder="Type or paste text to hash..." oninput="hashOnChange()" class="w-full h-28 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none resize-none text-sm"></textarea>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-3 bg-slate-700 rounded-lg p-3">
+                            <span class="text-gray-400 text-xs w-16 shrink-0 font-mono">SHA-256</span>
+                            <input id="hashSHA256" readonly class="flex-1 bg-transparent text-white text-xs font-mono outline-none truncate" placeholder="—">
+                            <button onclick="copyText('hashSHA256')" class="shrink-0 text-xs px-2 py-1 rounded bg-slate-600 hover:bg-slate-500 transition text-gray-300 hover:text-white">Copy</button>
+                        </div>
+                        <div class="flex items-center gap-3 bg-slate-700 rounded-lg p-3">
+                            <span class="text-gray-400 text-xs w-16 shrink-0 font-mono">SHA-1</span>
+                            <input id="hashSHA1" readonly class="flex-1 bg-transparent text-white text-xs font-mono outline-none truncate" placeholder="—">
+                            <button onclick="copyText('hashSHA1')" class="shrink-0 text-xs px-2 py-1 rounded bg-slate-600 hover:bg-slate-500 transition text-gray-300 hover:text-white">Copy</button>
+                        </div>
+                        <div class="flex items-center gap-3 bg-slate-700 rounded-lg p-3">
+                            <span class="text-gray-400 text-xs w-16 shrink-0 font-mono">SHA-512</span>
+                            <input id="hashSHA512" readonly class="flex-1 bg-transparent text-white text-xs font-mono outline-none truncate" placeholder="—">
+                            <button onclick="copyText('hashSHA512')" class="shrink-0 text-xs px-2 py-1 rounded bg-slate-600 hover:bg-slate-500 transition text-gray-300 hover:text-white">Copy</button>
+                        </div>
+                    </div>
+                    <p class="text-gray-500 text-xs">Hashing is performed locally via Web Crypto API.</p>
+                </div>
+            </div>
+
+
+            <!-- ==================== PASSWORD ==================== -->
+            <div id="password" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">🔒 Password Generator</h2>
+                <div class="grid md:grid-cols-2 gap-8">
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-sm text-gray-300 mb-2">JWT Token</label>
-                            <textarea id="jwtInput" placeholder="Paste your JWT token here..." class="w-full h-32 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none"></textarea>
+                            <label class="block text-xs text-gray-400 mb-2">Length: <span id="pwLenDisplay" class="text-white font-mono">16</span></label>
+                            <input type="range" id="pwLen" min="4" max="128" value="16" oninput="document.getElementById('pwLenDisplay').textContent=this.value; generatePasswords()" class="w-full accent-blue-500">
                         </div>
-                        <button onclick="decodeJWT()" class="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded transition">Decode</button>
-                        
-                        <div id="jwtOutput" style="display:none;" class="bg-slate-700 rounded p-4 space-y-4">
-                            <div>
-                                <h3 class="text-blue-400 font-semibold mb-2">Header</h3>
-                                <pre id="jwtHeader" class="bg-slate-600 p-3 rounded text-sm overflow-auto"></pre>
-                            </div>
-                            <div>
-                                <h3 class="text-blue-400 font-semibold mb-2">Payload</h3>
-                                <pre id="jwtPayload" class="bg-slate-600 p-3 rounded text-sm overflow-auto"></pre>
-                            </div>
-                            <div>
-                                <h3 class="text-yellow-400 font-semibold mb-2">Note</h3>
-                                <p class="text-gray-300 text-sm">⚠️ Always verify JWT signature on your backend. Do not trust unverified tokens.</p>
-                            </div>
+                        <div class="space-y-2 text-sm text-gray-300">
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="pwUpper" checked onchange="generatePasswords()" class="accent-blue-500"> Uppercase (A–Z)</label>
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="pwLower" checked onchange="generatePasswords()" class="accent-blue-500"> Lowercase (a–z)</label>
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="pwNumbers" checked onchange="generatePasswords()" class="accent-blue-500"> Numbers (0–9)</label>
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="pwSymbols" onchange="generatePasswords()" class="accent-blue-500"> Symbols (!@#$%...)</label>
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="pwNoAmbiguous" onchange="generatePasswords()" class="accent-blue-500"> Exclude ambiguous (0, O, l, 1, I)</label>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <label class="text-xs text-gray-400">Count:</label>
+                            <input type="number" id="pwCount" value="5" min="1" max="20" oninput="generatePasswords()" class="w-20 bg-slate-700 text-white px-3 py-2 rounded text-sm border border-slate-600 outline-none focus:border-blue-400">
                         </div>
                     </div>
-                </div>
-
-                <!-- URL Decoder Tool -->
-                <div id="url" class="tool-content bg-slate-800 rounded-lg p-8 border border-slate-700" style="display:none;">
-                    <h2 class="text-2xl font-bold mb-6 text-white">🔗 URL Decoder/Encoder</h2>
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm text-gray-300 mb-2">Original Text</label>
-                            <textarea id="urlInput" placeholder="Paste URL or text..." class="w-full h-40 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none"></textarea>
-                            <div class="space-x-2 mt-4">
-                                <button onclick="encodeURL()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition text-sm">Encode</button>
-                                <button onclick="decodeURL()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition text-sm">Decode</button>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm text-gray-300 mb-2">Result</label>
-                            <textarea id="urlOutput" placeholder="Result will appear here..." readonly class="w-full h-40 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none"></textarea>
-                            <button onclick="copyToClipboard('urlOutput')" class="w-full mt-4 bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded transition text-sm">Copy Result</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Base64 Tool -->
-                <div id="base64" class="tool-content bg-slate-800 rounded-lg p-8 border border-slate-700" style="display:none;">
-                    <h2 class="text-2xl font-bold mb-6 text-white">🔀 Base64 Encoder/Decoder</h2>
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm text-gray-300 mb-2">Input Text</label>
-                            <textarea id="base64Input" placeholder="Paste text or base64..." class="w-full h-40 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none"></textarea>
-                            <div class="space-x-2 mt-4">
-                                <button onclick="encodeBase64()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition text-sm">Encode</button>
-                                <button onclick="decodeBase64()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition text-sm">Decode</button>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm text-gray-300 mb-2">Output</label>
-                            <textarea id="base64Output" placeholder="Result will appear here..." readonly class="w-full h-40 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none"></textarea>
-                            <button onclick="copyToClipboard('base64Output')" class="w-full mt-4 bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded transition text-sm">Copy Result</button>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Generated Passwords</label>
+                        <textarea id="pwOutput" readonly class="w-full h-52 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 font-mono text-sm resize-none"></textarea>
+                        <div class="flex gap-2 mt-2">
+                            <button onclick="generatePasswords()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition text-sm">Regenerate</button>
+                            <button onclick="copyToClipboard('pwOutput')" class="bg-slate-600 hover:bg-slate-500 px-4 py-2 rounded transition text-sm">Copy All</button>
                         </div>
                     </div>
                 </div>
             </div>
+
+
+            <!-- ==================== UUID ==================== -->
+            <div id="uuid" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">🆔 UUID Generator</h2>
+                <div class="space-y-4">
+                    <div class="flex gap-3 items-center">
+                        <label class="text-xs text-gray-400">Count:</label>
+                        <input type="number" id="uuidCount" value="5" min="1" max="50" class="w-20 bg-slate-700 text-white px-3 py-2 rounded border border-slate-600 text-sm outline-none focus:border-blue-400">
+                        <button onclick="generateUUIDs()" class="bg-blue-600 hover:bg-blue-700 px-5 py-2 rounded transition text-sm">Generate</button>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Generated UUIDs (v4)</label>
+                        <textarea id="uuidOutput" readonly class="w-full h-52 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 font-mono text-sm resize-none"></textarea>
+                    </div>
+                    <button onclick="copyToClipboard('uuidOutput')" class="bg-slate-600 hover:bg-slate-500 px-4 py-2 rounded transition text-sm">Copy All</button>
+                </div>
+            </div>
+
+
+            <!-- ==================== TIMESTAMP ==================== -->
+            <div id="timestamp" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">🕐 Unix Timestamp Converter</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="space-y-4">
+                        <h3 class="text-blue-400 text-xs font-semibold uppercase tracking-wide">Unix → Human Date</h3>
+                        <input type="text" id="tsInput" placeholder="e.g. 1700000000" onkeydown="if(event.key==='Enter')convertTimestamp()" class="w-full bg-slate-700 text-white px-4 py-2 rounded border border-slate-600 focus:border-blue-400 outline-none font-mono text-sm">
+                        <button onclick="convertTimestamp()" class="bg-blue-600 hover:bg-blue-700 px-5 py-2 rounded transition text-sm">Convert</button>
+                        <div id="tsOutput" class="bg-slate-700 rounded-lg p-4 space-y-2 text-xs" style="display:none;">
+                            <p class="text-gray-400">UTC: <span id="tsUTC" class="text-white font-mono"></span></p>
+                            <p class="text-gray-400">Local: <span id="tsLocal" class="text-white font-mono"></span></p>
+                            <p class="text-gray-400">ISO 8601: <span id="tsISO" class="text-white font-mono"></span></p>
+                            <p class="text-gray-400">Relative: <span id="tsRelative" class="text-blue-400 font-mono"></span></p>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <h3 class="text-blue-400 text-xs font-semibold uppercase tracking-wide">Current Time</h3>
+                        <div class="bg-slate-700 rounded-lg p-4 space-y-2 text-xs">
+                            <p class="text-gray-400">Unix (s): <span id="nowUnixS" class="text-white font-mono"></span></p>
+                            <p class="text-gray-400">Unix (ms): <span id="nowUnixMs" class="text-white font-mono"></span></p>
+                            <p class="text-gray-400">UTC: <span id="nowUTC" class="text-white font-mono"></span></p>
+                            <p class="text-gray-400">ISO 8601: <span id="nowISO" class="text-white font-mono"></span></p>
+                        </div>
+                        <button onclick="copyNowTimestamp()" class="bg-slate-600 hover:bg-slate-500 px-4 py-2 rounded transition text-sm">Copy Unix (s)</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ==================== NUMBER BASE ==================== -->
+            <div id="numbase" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">🔢 Number Base Converter</h2>
+                <div class="mb-5">
+                    <label class="block text-xs text-gray-400 mb-2">Input</label>
+                    <div class="flex gap-3">
+                        <input type="text" id="numInput" oninput="convertBase()" placeholder="Enter a number..." class="flex-1 bg-slate-700 text-white px-4 py-2 rounded border border-slate-600 focus:border-blue-400 outline-none font-mono text-sm">
+                        <select id="numInputBase" onchange="convertBase()" class="bg-slate-700 text-white px-3 py-2 rounded border border-slate-600 outline-none text-sm">
+                            <option value="10">Decimal</option>
+                            <option value="16">Hexadecimal</option>
+                            <option value="2">Binary</option>
+                            <option value="8">Octal</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex items-center gap-3 bg-slate-700 rounded-lg p-3">
+                        <span class="text-gray-400 text-xs w-28 shrink-0">Decimal (10)</span>
+                        <input id="numDec" readonly class="flex-1 bg-transparent text-white text-sm font-mono outline-none" placeholder="—">
+                        <button onclick="copyText('numDec')" class="text-xs px-2 py-1 rounded bg-slate-600 hover:bg-slate-500 transition text-gray-300 hover:text-white">Copy</button>
+                    </div>
+                    <div class="flex items-center gap-3 bg-slate-700 rounded-lg p-3">
+                        <span class="text-gray-400 text-xs w-28 shrink-0">Hexadecimal (16)</span>
+                        <input id="numHex" readonly class="flex-1 bg-transparent text-white text-sm font-mono outline-none" placeholder="—">
+                        <button onclick="copyText('numHex')" class="text-xs px-2 py-1 rounded bg-slate-600 hover:bg-slate-500 transition text-gray-300 hover:text-white">Copy</button>
+                    </div>
+                    <div class="flex items-center gap-3 bg-slate-700 rounded-lg p-3">
+                        <span class="text-gray-400 text-xs w-28 shrink-0">Binary (2)</span>
+                        <input id="numBin" readonly class="flex-1 bg-transparent text-white text-sm font-mono outline-none truncate" placeholder="—">
+                        <button onclick="copyText('numBin')" class="text-xs px-2 py-1 rounded bg-slate-600 hover:bg-slate-500 transition text-gray-300 hover:text-white">Copy</button>
+                    </div>
+                    <div class="flex items-center gap-3 bg-slate-700 rounded-lg p-3">
+                        <span class="text-gray-400 text-xs w-28 shrink-0">Octal (8)</span>
+                        <input id="numOct" readonly class="flex-1 bg-transparent text-white text-sm font-mono outline-none" placeholder="—">
+                        <button onclick="copyText('numOct')" class="text-xs px-2 py-1 rounded bg-slate-600 hover:bg-slate-500 transition text-gray-300 hover:text-white">Copy</button>
+                    </div>
+                </div>
+                <div id="numError" class="mt-3 text-red-400 text-sm" style="display:none;"></div>
+            </div>
+
+
+            <!-- ==================== COLOR ==================== -->
+            <div id="color" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">🎨 Color Converter</h2>
+                <div class="flex flex-col sm:flex-row gap-6 items-start">
+                    <div class="flex flex-col items-center gap-3">
+                        <input type="color" id="colorPicker" value="#3b82f6" oninput="updateColorFromHex(this.value)" class="w-24 h-24 rounded-xl cursor-pointer border-2 border-slate-600 bg-transparent">
+                        <div id="colorSwatch" class="w-24 h-8 rounded" style="background:#3b82f6;"></div>
+                    </div>
+                    <div class="flex-1 space-y-3 w-full">
+                        <div class="flex items-center gap-3 bg-slate-700 rounded-lg p-3">
+                            <span class="text-gray-400 text-xs w-12 shrink-0">HEX</span>
+                            <input id="colorHex" type="text" value="#3b82f6" oninput="updateColorFromHex(this.value)" class="flex-1 bg-transparent text-white text-sm font-mono outline-none uppercase">
+                            <button onclick="copyText('colorHex')" class="text-xs px-2 py-1 rounded bg-slate-600 hover:bg-slate-500 transition text-gray-300">Copy</button>
+                        </div>
+                        <div class="flex items-center gap-3 bg-slate-700 rounded-lg p-3">
+                            <span class="text-gray-400 text-xs w-12 shrink-0">RGB</span>
+                            <input id="colorRGB" readonly class="flex-1 bg-transparent text-white text-sm font-mono outline-none" placeholder="—">
+                            <button onclick="copyText('colorRGB')" class="text-xs px-2 py-1 rounded bg-slate-600 hover:bg-slate-500 transition text-gray-300">Copy</button>
+                        </div>
+                        <div class="flex items-center gap-3 bg-slate-700 rounded-lg p-3">
+                            <span class="text-gray-400 text-xs w-12 shrink-0">HSL</span>
+                            <input id="colorHSL" readonly class="flex-1 bg-transparent text-white text-sm font-mono outline-none" placeholder="—">
+                            <button onclick="copyText('colorHSL')" class="text-xs px-2 py-1 rounded bg-slate-600 hover:bg-slate-500 transition text-gray-300">Copy</button>
+                        </div>
+                        <div class="flex items-center gap-3 bg-slate-700 rounded-lg p-3">
+                            <span class="text-gray-400 text-xs w-12 shrink-0">HSB</span>
+                            <input id="colorHSB" readonly class="flex-1 bg-transparent text-white text-sm font-mono outline-none" placeholder="—">
+                            <button onclick="copyText('colorHSB')" class="text-xs px-2 py-1 rounded bg-slate-600 hover:bg-slate-500 transition text-gray-300">Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ==================== CASE CONVERTER ==================== -->
+            <div id="caseconv" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">🔡 Case Converter</h2>
+                <div class="mb-5">
+                    <label class="block text-xs text-gray-400 mb-2">Input Text</label>
+                    <input type="text" id="caseInput" oninput="convertCase()" placeholder="myVariableName or my_variable_name or My Variable..." class="w-full bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none text-sm">
+                </div>
+                <div id="caseOutputs" class="space-y-2"></div>
+            </div>
+
+
+            <!-- ==================== STRING UTILITIES ==================== -->
+            <div id="strutils" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">📏 String Utilities</h2>
+                <div class="grid md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Input</label>
+                        <textarea id="strInput" oninput="updateStringStats()" placeholder="Paste or type your text here..." class="w-full h-48 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none resize-none text-sm"></textarea>
+                        <div class="grid grid-cols-3 gap-1.5 mt-3">
+                            <button onclick="strOp('upper')" class="bg-slate-600 hover:bg-slate-500 px-2 py-1.5 rounded text-xs transition">UPPERCASE</button>
+                            <button onclick="strOp('lower')" class="bg-slate-600 hover:bg-slate-500 px-2 py-1.5 rounded text-xs transition">lowercase</button>
+                            <button onclick="strOp('trim')" class="bg-slate-600 hover:bg-slate-500 px-2 py-1.5 rounded text-xs transition">Trim</button>
+                            <button onclick="strOp('removeBlank')" class="bg-slate-600 hover:bg-slate-500 px-2 py-1.5 rounded text-xs transition">Remove blanks</button>
+                            <button onclick="strOp('reverse')" class="bg-slate-600 hover:bg-slate-500 px-2 py-1.5 rounded text-xs transition">Reverse</button>
+                            <button onclick="strOp('escape')" class="bg-slate-600 hover:bg-slate-500 px-2 py-1.5 rounded text-xs transition">Escape HTML</button>
+                            <button onclick="strOp('unescape')" class="bg-slate-600 hover:bg-slate-500 px-2 py-1.5 rounded text-xs transition">Unescape HTML</button>
+                            <button onclick="strOp('dedup')" class="bg-slate-600 hover:bg-slate-500 px-2 py-1.5 rounded text-xs transition">Dedup lines</button>
+                            <button onclick="strOp('sort')" class="bg-slate-600 hover:bg-slate-500 px-2 py-1.5 rounded text-xs transition">Sort lines</button>
+                        </div>
+                    </div>
+                    <div>
+                        <div id="strStats" class="bg-slate-700 rounded-lg p-4 text-xs space-y-1.5 mb-4 text-gray-300">
+                            <p class="text-gray-500">Stats will appear as you type...</p>
+                        </div>
+                        <label class="block text-xs text-gray-400 mb-2">Output</label>
+                        <textarea id="strOutput" readonly placeholder="Result appears here..." class="w-full h-32 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 outline-none resize-none text-sm"></textarea>
+                        <button onclick="copyToClipboard('strOutput')" class="w-full mt-2 bg-slate-600 hover:bg-slate-500 px-4 py-2 rounded transition text-sm">Copy Output</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ==================== MARKDOWN ==================== -->
+            <div id="markdown" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">📝 Markdown Preview</h2>
+                <div class="grid md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Markdown</label>
+                        <textarea id="markdownInput" oninput="previewMarkdown()" placeholder="# Hello World&#10;&#10;Write your markdown here..." class="w-full h-96 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none font-mono text-sm resize-none"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Preview</label>
+                        <div id="markdownPreview" class="w-full h-96 bg-slate-700 px-4 py-3 rounded border border-slate-600 overflow-auto text-sm"></div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ==================== REGEX ==================== -->
+            <div id="regex" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">🔍 Regex Tester</h2>
+                <div class="space-y-4">
+                    <div class="flex gap-3">
+                        <div class="flex-1">
+                            <label class="block text-xs text-gray-400 mb-2">Pattern</label>
+                            <input type="text" id="regexPattern" placeholder="e.g. \d{3}-\d{4}" oninput="testRegex()" class="w-full bg-slate-700 text-white px-4 py-2 rounded border border-slate-600 focus:border-blue-400 outline-none font-mono text-sm">
+                        </div>
+                        <div class="w-28">
+                            <label class="block text-xs text-gray-400 mb-2">Flags</label>
+                            <input type="text" id="regexFlags" value="g" oninput="testRegex()" class="w-full bg-slate-700 text-white px-4 py-2 rounded border border-slate-600 focus:border-blue-400 outline-none font-mono text-sm">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Test String</label>
+                        <textarea id="regexInput" placeholder="Enter text to test against..." oninput="testRegex()" class="w-full h-32 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none text-sm resize-none"></textarea>
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="text-xs text-gray-400">Matches</label>
+                            <span id="regexMatchCount" class="text-xs text-blue-400 font-mono"></span>
+                        </div>
+                        <div id="regexOutput" class="bg-slate-700 rounded-lg p-4 min-h-12 font-mono text-sm text-gray-300 whitespace-pre-wrap"></div>
+                    </div>
+                    <div id="regexError" class="text-red-400 text-sm" style="display:none;"></div>
+                </div>
+            </div>
+
+
+            <!-- ==================== DIFF ==================== -->
+            <div id="diff" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">📄 Text Diff</h2>
+                <div class="grid md:grid-cols-2 gap-5 mb-4">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Original (A)</label>
+                        <textarea id="diffA" placeholder="Original text..." class="w-full h-40 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none font-mono text-sm resize-none"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Changed (B)</label>
+                        <textarea id="diffB" placeholder="Changed text..." class="w-full h-40 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none font-mono text-sm resize-none"></textarea>
+                    </div>
+                </div>
+                <button onclick="runDiff()" class="bg-blue-600 hover:bg-blue-700 px-5 py-2 rounded transition text-sm mb-4">Compare</button>
+                <div id="diffStats" class="text-xs text-gray-400 mb-3" style="display:none;"></div>
+                <div id="diffOutput" class="font-mono text-xs space-y-0 rounded-lg overflow-hidden border border-slate-700" style="display:none;"></div>
+            </div>
+
+
+            <!-- ==================== CRON ==================== -->
+            <div id="cron" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">🕐 Cron Explainer</h2>
+                <div class="mb-5">
+                    <label class="block text-xs text-gray-400 mb-2">Cron Expression</label>
+                    <div class="flex gap-3">
+                        <input type="text" id="cronInput" placeholder="*/5 * * * *" oninput="explainCron()" class="flex-1 bg-slate-700 text-white px-4 py-2.5 rounded border border-slate-600 focus:border-blue-400 outline-none font-mono text-sm">
+                        <button onclick="setCronExample()" class="bg-slate-600 hover:bg-slate-500 px-4 py-2 rounded transition text-sm">Example</button>
+                    </div>
+                    <p class="text-gray-500 text-xs mt-2">Supports 5-field (min hr dom mon dow) and 6-field (sec min hr dom mon dow)</p>
+                </div>
+                <div id="cronError" class="text-red-400 text-sm mb-4" style="display:none;"></div>
+                <div id="cronFields" class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-6" style="display:none;"></div>
+                <div id="cronSummary" class="bg-slate-700 rounded-lg p-4 mb-5 text-sm" style="display:none;"></div>
+                <div id="cronNextRuns" style="display:none;">
+                    <h3 class="text-xs font-semibold text-blue-400 uppercase tracking-wide mb-3">Next 5 Runs</h3>
+                    <div id="cronRunsList" class="space-y-1.5"></div>
+                </div>
+            </div>
+
         </div>
-    </section>
+
+    </div>
 
     <!-- Footer -->
-    <footer class="bg-slate-800 border-t border-slate-700 py-8">
-        <div class="max-w-6xl mx-auto px-4 text-center text-gray-400">
+    <footer class="bg-slate-800 border-t border-slate-700 py-8 mt-4">
+        <div class="max-w-6xl mx-auto px-4 text-center text-gray-500 text-sm">
             <p>&copy; 2026 Tellez Labs. All rights reserved.</p>
         </div>
     </footer>
 
-    <script src="tools.js"></script>
+    <script src="tools/pomodoro.js"></script>
+    <script src="tools/encode.js"></script>
+    <script src="tools/security.js"></script>
+    <script src="tools/converters.js"></script>
+    <script src="tools/text.js"></script>
+    <script src="tools/analysis.js"></script>
+    <script src="tools/core.js"></script>
+    <script>
+        const toggle = document.getElementById('navToggle');
+        const menu = document.getElementById('mobileMenu');
+        const iconMenu = document.getElementById('iconMenu');
+        const iconClose = document.getElementById('iconClose');
+        toggle.addEventListener('click', () => {
+            const open = menu.classList.toggle('hidden');
+            iconMenu.classList.toggle('hidden', !open);
+            iconClose.classList.toggle('hidden', open);
+        });
+        const mobilePicker = document.getElementById('mobilePicker');
+        const origShowTool = window.showTool;
+        window.showTool = function(toolName) {
+            origShowTool(toolName);
+            if (mobilePicker.value !== toolName) mobilePicker.value = toolName;
+        };
+    </script>
 </body>
 </html>

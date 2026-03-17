@@ -1,0 +1,18 @@
+            <!-- ==================== DIFF ==================== -->
+            <div id="diff" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">📄 Text Diff</h2>
+                <div class="grid md:grid-cols-2 gap-5 mb-4">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Original (A)</label>
+                        <textarea id="diffA" placeholder="Original text..." class="w-full h-40 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none font-mono text-sm resize-none"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Changed (B)</label>
+                        <textarea id="diffB" placeholder="Changed text..." class="w-full h-40 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none font-mono text-sm resize-none"></textarea>
+                    </div>
+                </div>
+                <button onclick="runDiff()" class="bg-blue-600 hover:bg-blue-700 px-5 py-2 rounded transition text-sm mb-4">Compare</button>
+                <div id="diffStats" class="text-xs text-gray-400 mb-3" style="display:none;"></div>
+                <div id="diffOutput" class="font-mono text-xs space-y-0 rounded-lg overflow-hidden border border-slate-700" style="display:none;"></div>
+            </div>
+

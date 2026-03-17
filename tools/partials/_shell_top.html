@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools - Luis Tellez</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@9/marked.min.js"></script>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' font-weight='bold' fill='%233b82f6'>T</text></svg>">
+    <style>
+        .sidebar-item.active { background-color: rgb(30 58 138 / 0.3); color: #93c5fd; border-left-color: #3b82f6; }
+        .pomo-tab.active { color: #93c5fd; border-bottom-color: #3b82f6; }
+        .diff-added { background-color: rgb(34 197 94 / 0.15); color: #86efac; }
+        .diff-removed { background-color: rgb(239 68 68 / 0.15); color: #fca5a5; }
+        .diff-same { color: #94a3b8; }
+        #markdownPreview h1,#markdownPreview h2,#markdownPreview h3 { color: #f1f5f9; font-weight: 700; margin: 1rem 0 0.5rem; }
+        #markdownPreview h1 { font-size: 1.5rem; }
+        #markdownPreview h2 { font-size: 1.25rem; }
+        #markdownPreview h3 { font-size: 1.1rem; }
+        #markdownPreview p { margin: 0.5rem 0; color: #cbd5e1; }
+        #markdownPreview ul,#markdownPreview ol { margin: 0.5rem 0 0.5rem 1.5rem; color: #cbd5e1; }
+        #markdownPreview li { margin: 0.25rem 0; }
+        #markdownPreview code { background: #334155; padding: 0.1rem 0.3rem; border-radius: 3px; font-family: monospace; font-size: 0.85em; color: #93c5fd; }
+        #markdownPreview pre { background: #1e293b; padding: 1rem; border-radius: 6px; overflow-x: auto; margin: 0.75rem 0; }
+        #markdownPreview pre code { background: none; padding: 0; color: #e2e8f0; }
+        #markdownPreview blockquote { border-left: 3px solid #3b82f6; padding-left: 1rem; color: #94a3b8; margin: 0.75rem 0; }
+        #markdownPreview a { color: #60a5fa; text-decoration: underline; }
+        #markdownPreview table { border-collapse: collapse; width: 100%; margin: 0.75rem 0; }
+        #markdownPreview th,#markdownPreview td { border: 1px solid #334155; padding: 0.4rem 0.75rem; color: #cbd5e1; }
+        #markdownPreview th { background: #1e293b; color: #f1f5f9; }
+        #markdownPreview hr { border-color: #334155; margin: 1rem 0; }
+    </style>
+</head>
+<body class="bg-slate-900 text-gray-100">
+
+    <!-- Toast -->
+    <div id="toast" class="fixed top-5 right-5 z-50 text-white px-5 py-3 rounded-lg shadow-lg text-sm font-medium transition-all duration-300 opacity-0 pointer-events-none bg-green-600">
+        ✓ <span id="toastMessage">Copied!</span>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="bg-slate-800 border-b border-slate-700 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-full overflow-hidden border border-blue-500/60 shrink-0">
+                    <img src="badge2.jpg" alt="Luis Tellez" class="w-full h-full object-cover object-top">
+                </div>
+                <div class="leading-tight">
+                    <div class="text-sm font-semibold text-white">Luis Tellez</div>
+                    <div class="text-xs text-gray-500 hidden sm:block">Senior Software Engineer</div>
+                </div>
+            </a>
+            <div class="hidden sm:flex items-center space-x-6 text-sm">
+                <a href="index.html" class="hover:text-blue-400 transition text-gray-300">About</a>
+                <a href="resume.html" class="hover:text-blue-400 transition text-gray-300">Resume</a>
+                <a href="tools.html" class="text-blue-400 font-semibold">Tools</a>
+            </div>
+            <button id="navToggle" class="sm:hidden text-gray-300 hover:text-white" aria-label="Menu">
+                <svg id="iconMenu" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                <svg id="iconClose" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <div id="mobileMenu" class="hidden sm:hidden bg-slate-800 border-t border-slate-700 px-4 pb-4 space-y-1">
+            <a href="index.html" class="block py-2 text-gray-300 hover:text-blue-400 transition text-sm">About</a>
+            <a href="resume.html" class="block py-2 text-gray-300 hover:text-blue-400 transition text-sm">Resume</a>
+            <a href="tools.html" class="block py-2 text-blue-400 font-semibold text-sm">Tools</a>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="bg-gradient-to-br from-slate-800 to-slate-900 py-8 border-b border-slate-700">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row sm:items-end gap-4">
+            <div class="flex-1">
+                <h1 class="text-2xl font-bold text-white mb-1">Developer Tools</h1>
+                <p class="text-gray-500 text-sm">Browser-local utilities — no data leaves your machine</p>
+            </div>
+            <div class="sm:hidden">
+                <select id="mobilePicker" onchange="showTool(this.value)" class="w-full bg-slate-700 border border-slate-600 text-white px-3 py-2 rounded text-sm outline-none">
+                    <optgroup label="⏱ Productivity">
+                        <option value="pomodoro">🍅 Pomodoro Timer</option>
+                    </optgroup>
+                    <optgroup label="📝 Encode / Decode">
+                        <option value="json">📋 JSON Formatter</option>
+                        <option value="base64">🔀 Base64</option>
+                        <option value="url">🔗 URL Encoder/Decoder</option>
+                        <option value="yaml">↔️ YAML ↔ JSON</option>
+                    </optgroup>
+                    <optgroup label="🔐 Security">
+                        <option value="jwt">🔐 JWT Decoder</option>
+                        <option value="hash">🔑 Hash Generator</option>
+                        <option value="password">🔒 Password Generator</option>
+                    </optgroup>
+                    <optgroup label="🔢 Converters">
+                        <option value="uuid">🆔 UUID Generator</option>
+                        <option value="timestamp">🕐 Timestamp</option>
+                        <option value="numbase">🔢 Number Base</option>
+                        <option value="color">🎨 Color</option>
+                    </optgroup>
+                    <optgroup label="✏️ Text & Format">
+                        <option value="caseconv">🔡 Case Converter</option>
+                        <option value="strutils">📏 String Utilities</option>
+                        <option value="markdown">📝 Markdown Preview</option>
+                    </optgroup>
+                    <optgroup label="🔍 Testing & Analysis">
+                        <option value="regex">🔍 Regex Tester</option>
+                        <option value="diff">📄 Text Diff</option>
+                        <option value="cron">🕐 Cron Explainer</option>
+                    </optgroup>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <!-- Layout -->
+    <div class="max-w-6xl mx-auto px-4 py-8 flex gap-6 items-start">
+
+        <!-- Sidebar -->
+        <aside class="hidden sm:block w-48 shrink-0 sticky top-20">
+            <nav class="space-y-5 text-sm">
+
+                <div>
+                    <p class="text-gray-500 text-xs font-semibold uppercase tracking-wider px-3 mb-1">⏱ Productivity</p>
+                    <button onclick="showTool('pomodoro')" data-tool="pomodoro" class="sidebar-item active w-full text-left px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">🍅 Pomodoro Timer</button>
+                </div>
+
+                <div>
+                    <p class="text-gray-500 text-xs font-semibold uppercase tracking-wider px-3 mb-1">📝 Encode / Decode</p>
+                    <button onclick="showTool('json')" data-tool="json" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">📋 JSON Formatter</button>
+                    <button onclick="showTool('base64')" data-tool="base64" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">🔀 Base64</button>
+                    <button onclick="showTool('url')" data-tool="url" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">🔗 URL Encoder/Decoder</button>
+                    <button onclick="showTool('yaml')" data-tool="yaml" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">↔️ YAML ↔ JSON</button>
+                </div>
+
+                <div>
+                    <p class="text-gray-500 text-xs font-semibold uppercase tracking-wider px-3 mb-1">🔐 Security</p>
+                    <button onclick="showTool('jwt')" data-tool="jwt" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">🔐 JWT Decoder</button>
+                    <button onclick="showTool('hash')" data-tool="hash" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">🔑 Hash Generator</button>
+                    <button onclick="showTool('password')" data-tool="password" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">🔒 Password Generator</button>
+                </div>
+
+                <div>
+                    <p class="text-gray-500 text-xs font-semibold uppercase tracking-wider px-3 mb-1">🔢 Converters</p>
+                    <button onclick="showTool('uuid')" data-tool="uuid" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">🆔 UUID Generator</button>
+                    <button onclick="showTool('timestamp')" data-tool="timestamp" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">🕐 Timestamp</button>
+                    <button onclick="showTool('numbase')" data-tool="numbase" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">🔢 Number Base</button>
+                    <button onclick="showTool('color')" data-tool="color" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">🎨 Color</button>
+                </div>
+
+                <div>
+                    <p class="text-gray-500 text-xs font-semibold uppercase tracking-wider px-3 mb-1">✏️ Text & Format</p>
+                    <button onclick="showTool('caseconv')" data-tool="caseconv" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">🔡 Case Converter</button>
+                    <button onclick="showTool('strutils')" data-tool="strutils" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">📏 String Utilities</button>
+                    <button onclick="showTool('markdown')" data-tool="markdown" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">📝 Markdown Preview</button>
+                </div>
+
+                <div>
+                    <p class="text-gray-500 text-xs font-semibold uppercase tracking-wider px-3 mb-1">🔍 Testing & Analysis</p>
+                    <button onclick="showTool('regex')" data-tool="regex" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">🔍 Regex Tester</button>
+                    <button onclick="showTool('diff')" data-tool="diff" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">📄 Text Diff</button>
+                    <button onclick="showTool('cron')" data-tool="cron" class="sidebar-item w-full text-left text-gray-300 px-3 py-2 rounded border-l-2 border-transparent hover:bg-slate-800 hover:text-blue-300 transition">🕐 Cron Explainer</button>
+                </div>
+
+            </nav>
+        </aside>
+
+        <!-- Tool Content -->
+        <div class="flex-1 min-w-0">

@@ -1,0 +1,30 @@
+            <!-- ==================== STRING UTILITIES ==================== -->
+            <div id="strutils" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">📏 String Utilities</h2>
+                <div class="grid md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Input</label>
+                        <textarea id="strInput" oninput="updateStringStats()" placeholder="Paste or type your text here..." class="w-full h-48 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 focus:border-blue-400 outline-none resize-none text-sm"></textarea>
+                        <div class="grid grid-cols-3 gap-1.5 mt-3">
+                            <button onclick="strOp('upper')" class="bg-slate-600 hover:bg-slate-500 px-2 py-1.5 rounded text-xs transition">UPPERCASE</button>
+                            <button onclick="strOp('lower')" class="bg-slate-600 hover:bg-slate-500 px-2 py-1.5 rounded text-xs transition">lowercase</button>
+                            <button onclick="strOp('trim')" class="bg-slate-600 hover:bg-slate-500 px-2 py-1.5 rounded text-xs transition">Trim</button>
+                            <button onclick="strOp('removeBlank')" class="bg-slate-600 hover:bg-slate-500 px-2 py-1.5 rounded text-xs transition">Remove blanks</button>
+                            <button onclick="strOp('reverse')" class="bg-slate-600 hover:bg-slate-500 px-2 py-1.5 rounded text-xs transition">Reverse</button>
+                            <button onclick="strOp('escape')" class="bg-slate-600 hover:bg-slate-500 px-2 py-1.5 rounded text-xs transition">Escape HTML</button>
+                            <button onclick="strOp('unescape')" class="bg-slate-600 hover:bg-slate-500 px-2 py-1.5 rounded text-xs transition">Unescape HTML</button>
+                            <button onclick="strOp('dedup')" class="bg-slate-600 hover:bg-slate-500 px-2 py-1.5 rounded text-xs transition">Dedup lines</button>
+                            <button onclick="strOp('sort')" class="bg-slate-600 hover:bg-slate-500 px-2 py-1.5 rounded text-xs transition">Sort lines</button>
+                        </div>
+                    </div>
+                    <div>
+                        <div id="strStats" class="bg-slate-700 rounded-lg p-4 text-xs space-y-1.5 mb-4 text-gray-300">
+                            <p class="text-gray-500">Stats will appear as you type...</p>
+                        </div>
+                        <label class="block text-xs text-gray-400 mb-2">Output</label>
+                        <textarea id="strOutput" readonly placeholder="Result appears here..." class="w-full h-32 bg-slate-700 text-white px-4 py-3 rounded border border-slate-600 outline-none resize-none text-sm"></textarea>
+                        <button onclick="copyToClipboard('strOutput')" class="w-full mt-2 bg-slate-600 hover:bg-slate-500 px-4 py-2 rounded transition text-sm">Copy Output</button>
+                    </div>
+                </div>
+            </div>
+

@@ -1,0 +1,33 @@
+            <!-- ==================== COLOR ==================== -->
+            <div id="color" class="tool-content bg-slate-800 rounded-lg p-6 sm:p-8 border border-slate-700" style="display:none;">
+                <h2 class="text-xl font-bold mb-6 text-white">🎨 Color Converter</h2>
+                <div class="flex flex-col sm:flex-row gap-6 items-start">
+                    <div class="flex flex-col items-center gap-3">
+                        <input type="color" id="colorPicker" value="#3b82f6" oninput="updateColorFromHex(this.value)" class="w-24 h-24 rounded-xl cursor-pointer border-2 border-slate-600 bg-transparent">
+                        <div id="colorSwatch" class="w-24 h-8 rounded" style="background:#3b82f6;"></div>
+                    </div>
+                    <div class="flex-1 space-y-3 w-full">
+                        <div class="flex items-center gap-3 bg-slate-700 rounded-lg p-3">
+                            <span class="text-gray-400 text-xs w-12 shrink-0">HEX</span>
+                            <input id="colorHex" type="text" value="#3b82f6" oninput="updateColorFromHex(this.value)" class="flex-1 bg-transparent text-white text-sm font-mono outline-none uppercase">
+                            <button onclick="copyText('colorHex')" class="text-xs px-2 py-1 rounded bg-slate-600 hover:bg-slate-500 transition text-gray-300">Copy</button>
+                        </div>
+                        <div class="flex items-center gap-3 bg-slate-700 rounded-lg p-3">
+                            <span class="text-gray-400 text-xs w-12 shrink-0">RGB</span>
+                            <input id="colorRGB" readonly class="flex-1 bg-transparent text-white text-sm font-mono outline-none" placeholder="—">
+                            <button onclick="copyText('colorRGB')" class="text-xs px-2 py-1 rounded bg-slate-600 hover:bg-slate-500 transition text-gray-300">Copy</button>
+                        </div>
+                        <div class="flex items-center gap-3 bg-slate-700 rounded-lg p-3">
+                            <span class="text-gray-400 text-xs w-12 shrink-0">HSL</span>
+                            <input id="colorHSL" readonly class="flex-1 bg-transparent text-white text-sm font-mono outline-none" placeholder="—">
+                            <button onclick="copyText('colorHSL')" class="text-xs px-2 py-1 rounded bg-slate-600 hover:bg-slate-500 transition text-gray-300">Copy</button>
+                        </div>
+                        <div class="flex items-center gap-3 bg-slate-700 rounded-lg p-3">
+                            <span class="text-gray-400 text-xs w-12 shrink-0">HSB</span>
+                            <input id="colorHSB" readonly class="flex-1 bg-transparent text-white text-sm font-mono outline-none" placeholder="—">
+                            <button onclick="copyText('colorHSB')" class="text-xs px-2 py-1 rounded bg-slate-600 hover:bg-slate-500 transition text-gray-300">Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
