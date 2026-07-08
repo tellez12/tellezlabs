@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750">
+  <rect width="1200" height="750" fill="#1e293b"/>
+  <rect x="0" y="0" width="1200" height="56" fill="#0f172a"/>
+  <circle cx="28" cy="28" r="6" fill="#ef4444"/>
+  <circle cx="50" cy="28" r="6" fill="#f59e0b"/>
+  <circle cx="72" cy="28" r="6" fill="#22c55e"/>
+  <text x="600" y="400" font-family="system-ui, sans-serif" font-size="34" font-weight="700" fill="#22d3ee" text-anchor="middle">beachtennis.tellezlabs.com</text>
+  <text x="600" y="445" font-family="system-ui, sans-serif" font-size="16" fill="#64748b" text-anchor="middle">Screenshot coming soon</text>
+</svg>
