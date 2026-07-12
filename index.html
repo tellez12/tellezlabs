@@ -76,7 +76,7 @@
             </a>
             <div class="hidden sm:flex items-center space-x-6 text-sm">
                 <a href="index.html" class="text-blue-400 font-semibold">About</a>
-                <a href="#projects" class="hover:text-blue-400 transition text-gray-300">Home Projects</a>
+                <a href="projects.html" class="hover:text-blue-400 transition text-gray-300">Projects</a>
                 <a href="resume.html" class="hover:text-blue-400 transition text-gray-300">Resume</a>
                 <a href="tools.html" class="hover:text-blue-400 transition text-gray-300">Tools</a>
             </div>
@@ -87,7 +87,7 @@
         </div>
         <div id="mobileMenu" class="hidden sm:hidden bg-slate-800 border-t border-slate-700 px-4 pb-4 space-y-1">
             <a href="index.html" class="block py-2 text-blue-400 font-semibold text-sm">About</a>
-            <a href="#projects" class="block py-2 text-gray-300 hover:text-blue-400 transition text-sm">Home Projects</a>
+            <a href="projects.html" class="block py-2 text-gray-300 hover:text-blue-400 transition text-sm">Projects</a>
             <a href="resume.html" class="block py-2 text-gray-300 hover:text-blue-400 transition text-sm">Resume</a>
             <a href="tools.html" class="block py-2 text-gray-300 hover:text-blue-400 transition text-sm">Tools</a>
         </div>
@@ -134,7 +134,7 @@
     <!-- Numbers -->
     <section class="py-10 border-b border-slate-700">
         <div class="max-w-3xl mx-auto px-4">
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+            <div class="grid grid-cols-2 gap-6 text-center">
                 <div>
                     <div class="text-3xl font-bold text-blue-400">15+</div>
                     <div class="text-gray-500 text-xs mt-1 uppercase tracking-wider">Years</div>
@@ -142,14 +142,6 @@
                 <div>
                     <div class="text-3xl font-bold text-violet-400">8</div>
                     <div class="text-gray-500 text-xs mt-1 uppercase tracking-wider">Companies</div>
-                </div>
-                <div>
-                    <div class="text-3xl font-bold text-cyan-400">3×</div>
-                    <div class="text-gray-500 text-xs mt-1 uppercase tracking-wider">Throughput at AWS</div>
-                </div>
-                <div>
-                    <div class="text-3xl font-bold text-amber-400">35%</div>
-                    <div class="text-gray-500 text-xs mt-1 uppercase tracking-wider">DB speedup at UruIT</div>
                 </div>
             </div>
         </div>
@@ -220,149 +212,6 @@
             </div>
             <div class="mt-8 text-center">
                 <a href="resume.html" class="text-blue-400 hover:text-blue-300 text-sm transition">Full details on the Resume page →</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Home Projects -->
-    <section id="projects" class="py-14 border-b border-slate-700">
-        <div class="max-w-5xl mx-auto px-4">
-            <h2 class="text-xs font-bold text-blue-400 uppercase tracking-widest mb-3 text-center">Home Projects</h2>
-            <p class="text-gray-400 text-sm leading-relaxed max-w-2xl mx-auto text-center mb-10">
-                A handful of full-stack apps I built and run for myself, all self-hosted on a home server.
-                Traffic reaches them through a Cloudflare Tunnel into Traefik, which reverse-proxies to a set of
-                Dockerized services (FastAPI/Go APIs, Postgres/MySQL, React frontends) — no ports forwarded on my router.
-                Everything ships as its own <code class="text-gray-300">docker-compose.yml</code>, composed together on the host.
-            </p>
-
-            <div class="grid sm:grid-cols-2 gap-6">
-
-                <!-- 1. eventoslocales -->
-                <div class="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden flex flex-col">
-                    <img src="assets/screenshots/eventoslocales.png" alt="eventoslocales screenshot" class="w-full aspect-video object-cover border-b border-slate-700">
-                    <div class="p-5 flex flex-col flex-1">
-                        <div class="flex items-center justify-between mb-2">
-                            <h3 class="font-semibold text-white text-sm">eventoslocales</h3>
-                            <a href="https://eventos.tellezlabs.com" target="_blank" rel="noopener" class="text-blue-400 hover:text-blue-300 text-xs">Visit ↗</a>
-                        </div>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-3">
-                            Local events aggregator for Málaga, Spain. Ingests events (incl. Ticketmaster) and sends
-                            ticket on-sale alerts over Telegram/email so users don't miss a drop.
-                        </p>
-                        <div class="mt-auto flex flex-wrap gap-1.5">
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">FastAPI</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">PostgreSQL + PostGIS</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">Redis</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">React + Vite</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 2. BeachTennis -->
-                <div class="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden flex flex-col">
-                    <img src="assets/screenshots/beachtennis.svg" alt="BeachTennis screenshot" class="w-full aspect-video object-cover border-b border-slate-700">
-                    <div class="p-5 flex flex-col flex-1">
-                        <div class="flex items-center justify-between mb-2">
-                            <h3 class="font-semibold text-white text-sm">Beach Tennis Málaga</h3>
-                            <a href="https://beachtennis.tellezlabs.com" target="_blank" rel="noopener" class="text-blue-400 hover:text-blue-300 text-xs">Visit ↗</a>
-                        </div>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-3">
-                            Tournament and league management for a local beach tennis club — players, categories,
-                            memberships, brackets, and leaderboards. Currently a "coming soon" landing page while
-                            the full app finishes development.
-                        </p>
-                        <div class="mt-auto flex flex-wrap gap-1.5">
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">FastAPI</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">MySQL</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">React + TS + Tailwind</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 3. HabitTracker -->
-                <div class="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden flex flex-col">
-                    <img src="assets/screenshots/habittracker.png" alt="HabitTracker screenshot" class="w-full aspect-video object-cover border-b border-slate-700">
-                    <div class="p-5 flex flex-col flex-1">
-                        <div class="flex items-center justify-between mb-2">
-                            <h3 class="font-semibold text-white text-sm">HabitTracker</h3>
-                            <a href="https://habits.tellezlabs.com" target="_blank" rel="noopener" class="text-blue-400 hover:text-blue-300 text-xs">Visit ↗</a>
-                        </div>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-3">
-                            Habit tracking with streaks, activity heatmaps, and habit packs. Installs as a PWA and
-                            also ships as a native mobile app via Capacitor.
-                        </p>
-                        <div class="mt-auto flex flex-wrap gap-1.5">
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">FastAPI</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">PostgreSQL</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">React + Vite</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">Capacitor</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 4. TimeHelper -->
-                <div class="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden flex flex-col">
-                    <img src="assets/screenshots/timehelper.png" alt="TimeHelper screenshot" class="w-full aspect-video object-cover border-b border-slate-700">
-                    <div class="p-5 flex flex-col flex-1">
-                        <div class="flex items-center justify-between mb-2">
-                            <h3 class="font-semibold text-white text-sm">TimeHelper</h3>
-                            <a href="https://timehelper.tellezlabs.com" target="_blank" rel="noopener" class="text-blue-400 hover:text-blue-300 text-xs">Visit ↗</a>
-                        </div>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-3">
-                            Personal time-tracking and productivity app — a running timer, journaling, and
-                            dashboards to see where the hours actually go.
-                        </p>
-                        <div class="mt-auto flex flex-wrap gap-1.5">
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">FastAPI</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">PostgreSQL</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">React 19 + TS</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">Supabase Auth</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 5. FinalTodoList -->
-                <div class="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden flex flex-col">
-                    <img src="assets/screenshots/finaltodolist.png" alt="FinalTodoList screenshot" class="w-full aspect-video object-cover border-b border-slate-700">
-                    <div class="p-5 flex flex-col flex-1">
-                        <div class="flex items-center justify-between mb-2">
-                            <h3 class="font-semibold text-white text-sm">FinalTodoList</h3>
-                            <a href="https://todo.tellezlabs.com" target="_blank" rel="noopener" class="text-blue-400 hover:text-blue-300 text-xs">Visit ↗</a>
-                        </div>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-3">
-                            Real-time collaborative to-do app with Pomodoro timers, time tracking, and offline
-                            support — one codebase for web, iOS, and Android.
-                        </p>
-                        <div class="mt-auto flex flex-wrap gap-1.5">
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">FastAPI + WebSockets</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">PostgreSQL</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">React Native + Expo</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">Redux Toolkit</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 6. ExpenseManager -->
-                <div class="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden flex flex-col">
-                    <img src="assets/screenshots/expensemanager.png" alt="ExpenseManager screenshot" class="w-full aspect-video object-cover border-b border-slate-700">
-                    <div class="p-5 flex flex-col flex-1">
-                        <div class="flex items-center justify-between mb-2">
-                            <h3 class="font-semibold text-white text-sm">Vault (Expense Manager)</h3>
-                            <a href="https://expenses.tellezlabs.com" target="_blank" rel="noopener" class="text-blue-400 hover:text-blue-300 text-xs">Visit ↗</a>
-                        </div>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-3">
-                            Self-hosted personal finance manager — multi-account and multi-currency tracking,
-                            open-banking sync, and net-worth/cash-flow dashboards.
-                        </p>
-                        <div class="mt-auto flex flex-wrap gap-1.5">
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">FastAPI</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">PostgreSQL</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">React + TS</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">Open Banking API</span>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
     </section>
