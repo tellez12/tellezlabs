@@ -61,10 +61,16 @@
         #lightbox[open] { display: flex; flex-direction: column; animation: lb-in .35s cubic-bezier(.16,1,.3,1); }
         @keyframes lb-in { from { opacity: 0; transform: scale(.98); } }
         @media (prefers-reduced-motion: reduce) { #lightbox[open] { animation: none; } }
-        .lb-stage { flex: 1; min-height: 0; overflow: auto; display: grid; place-items: center; padding: 0 max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px)); }
-        .lb-stage img { max-width: 100%; max-height: 100%; width: auto; height: auto; border-radius: 10px; cursor: zoom-in; box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.7); }
-        .lb-stage.zoomed { place-items: start; }
-        .lb-stage.zoomed img { max-width: none; max-height: none; cursor: zoom-out; border-radius: 0; }
+        /* Fit mode: the image fills the stage box and object-fit keeps it whole, so it never
+           needs scrolling. Zoomed: an explicit width, and the stage scrolls (margin:auto centres
+           it while it is still smaller than the stage on one axis). */
+        .lb-stage { flex: 1; min-height: 0; display: flex; overflow: hidden; padding: 0 max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px)); }
+        .lb-stage img { margin: auto; width: 100%; height: 100%; object-fit: contain; cursor: zoom-in; filter: drop-shadow(0 24px 40px rgb(0 0 0 / 0.55)); }
+        .lb-stage.zoomed { overflow: auto; overscroll-behavior: contain; }
+        .lb-stage.zoomed img { flex: none; max-width: none; max-height: none; height: auto; cursor: zoom-out; filter: none; }
+        .lb-zoom { display: flex; align-items: center; gap: 6px; }
+        .lb-zoom .lb-btn { width: 36px; height: 36px; }
+        .lb-zoom output { min-width: 3.25rem; text-align: center; font-variant-numeric: tabular-nums; }
         .lb-bar { display: flex; align-items: center; gap: 12px; padding: 12px max(16px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
         .lb-top { padding-top: calc(12px + env(safe-area-inset-top, 0px)); padding-bottom: 12px; }
         .lb-btn { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 999px; border: 1px solid rgb(71 85 105); color: #e2e8f0; background: rgb(15 23 42 / 0.6); transition: border-color .2s, background-color .2s; flex: none; }
@@ -399,7 +405,13 @@
     <dialog id="lightbox" aria-label="Screenshot viewer">
         <div class="lb-bar lb-top">
             <p id="lbTitle" class="text-sm font-medium text-white flex-1 min-w-0 truncate"></p>
-            <p id="lbCount" class="mono text-xs text-gray-400"></p>
+            <p id="lbCount" class="mono text-xs text-gray-400 hidden sm:block"></p>
+            <div class="lb-zoom" role="group" aria-label="Zoom">
+                <button id="lbOut" class="lb-btn" type="button" aria-label="Zoom out"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 12h14"/></svg></button>
+                <output id="lbLevel" class="mono text-xs text-gray-300" aria-live="polite">Fit</output>
+                <button id="lbIn" class="lb-btn" type="button" aria-label="Zoom in"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg></button>
+                <a id="lbOpen" class="lb-btn" href="#" target="_blank" rel="noopener" aria-label="Open the original image in a new tab" title="Open original in a new tab"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5"/></svg></a>
+            </div>
             <button id="lbClose" class="lb-btn" type="button" aria-label="Close viewer"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
         </div>
         <div id="lbStage" class="lb-stage"><img id="lbImg" alt=""></div>
@@ -407,7 +419,7 @@
             <button id="lbPrev" class="lb-btn" type="button" aria-label="Previous screenshot"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg></button>
             <div class="flex-1 min-w-0 text-center">
                 <p id="lbCaption" class="text-sm text-gray-300"></p>
-                <p id="lbHint" class="mt-1 text-xs text-gray-400">Click the image to see it at full size</p>
+                <p id="lbHint" class="mt-1 text-xs text-gray-400">Click the image or use + to zoom in</p>
             </div>
             <button id="lbNext" class="lb-btn" type="button" aria-label="Next screenshot"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>
         </div>
@@ -488,11 +500,10 @@
 
         function render() {
             const img = gallery[index];
-            lbStage.classList.remove('zoomed');
             lbImg.src = img.currentSrc || img.src;
             lbImg.alt = img.alt;
             const full = new Image();
-            full.onload = () => { if (gallery[index] === img) lbImg.src = full.src; };
+            full.onload = () => { if (gallery[index] === img) { lbImg.src = full.src; if (level > 0) setZoom(level); } };
             full.src = fullSrc(img);
             const title = img.closest('article, li')?.querySelector('h2, h3')?.textContent.trim() || '';
             document.getElementById('lbTitle').textContent = title;
@@ -501,6 +512,8 @@
             lbPrev.hidden = lbNext.hidden = gallery.length < 2;
             lbPrev.disabled = index === 0;
             lbNext.disabled = index === gallery.length - 1;
+            document.getElementById('lbOpen').href = fullSrc(img);
+            setZoom(0);
         }
         function openLightbox(img) {
             const carousel = img.closest('[data-carousel]');
@@ -531,17 +544,90 @@
         lbPrev.addEventListener('click', () => step(-1));
         lbNext.addEventListener('click', () => step(1));
         document.getElementById('lbClose').addEventListener('click', () => lb.close());
+        // Zoom steps are multiples of the fitted size, so "Fit" never needs scrolling and each
+        // step is a predictable jump. The point under the cursor (or the centre) stays put.
+        const LEVELS = [1, 1.5, 2, 3, 4];
+        const hint = document.getElementById('lbHint');
+        let level = 0;
+        function fitBox() {
+            const cs = getComputedStyle(lbStage);
+            const w = lbStage.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+            const h = lbStage.clientHeight;
+            const ratio = (lbImg.naturalWidth && lbImg.naturalHeight) ? lbImg.naturalWidth / lbImg.naturalHeight : 1.6;
+            const width = Math.min(w, h * ratio);
+            return { width, height: width / ratio, w, h };
+        }
+        function setZoom(next, anchor) {
+            next = Math.max(0, Math.min(LEVELS.length - 1, next));
+            const wasZoomed = level > 0;
+            // Where in the image (0-1) to keep under the anchor point.
+            let fx = 0.5, fy = 0.5, ax = lbStage.clientWidth / 2, ay = lbStage.clientHeight / 2;
+            const r = contentRect();
+            if (anchor && r.width) {
+                fx = (anchor.x - r.left) / r.width; fy = (anchor.y - r.top) / r.height;
+                const sr = lbStage.getBoundingClientRect();
+                ax = anchor.x - sr.left; ay = anchor.y - sr.top;
+            } else if (wasZoomed && r.width) {
+                const sr = lbStage.getBoundingClientRect();
+                fx = (sr.left + ax - r.left) / r.width; fy = (sr.top + ay - r.top) / r.height;
+            }
+            level = next;
+            if (level === 0) {
+                lbStage.classList.remove('zoomed');
+                lbImg.style.width = '';
+            } else {
+                lbStage.classList.add('zoomed');
+                lbImg.style.width = `${Math.round(fitBox().width * LEVELS[level])}px`;
+                const nr = lbImg.getBoundingClientRect(), sr = lbStage.getBoundingClientRect();
+                lbStage.scrollLeft += (nr.left - sr.left) + fx * nr.width - ax;
+                lbStage.scrollTop += (nr.top - sr.top) + fy * nr.height - ay;
+            }
+            document.getElementById('lbLevel').textContent = level === 0 ? 'Fit' : `${LEVELS[level] * 100}%`;
+            document.getElementById('lbOut').disabled = level === 0;
+            document.getElementById('lbIn').disabled = level === LEVELS.length - 1;
+            hint.textContent = level === 0 ? 'Click the image or use + to zoom in' : 'Drag or scroll to look around · click to fit the screen';
+        }
+        // The visible picture, not the img box (which is letterboxed while fitted).
+        function contentRect() {
+            const b = lbImg.getBoundingClientRect();
+            if (level > 0) return b;
+            const f = fitBox();
+            return { left: b.left + (b.width - f.width) / 2, top: b.top + (b.height - f.height) / 2, width: f.width, height: f.height };
+        }
+        document.getElementById('lbIn').addEventListener('click', () => setZoom(level + 1));
+        document.getElementById('lbOut').addEventListener('click', () => setZoom(level - 1));
+        window.addEventListener('resize', () => { if (lb.open && level > 0) setZoom(level); });
+
+        // Mouse drag pans a zoomed image; a click without dragging toggles zoom.
+        let drag = null;
+        lbImg.addEventListener('dragstart', (e) => e.preventDefault());
+        lbImg.addEventListener('pointerdown', (e) => {
+            if (level === 0 || e.pointerType !== 'mouse') return;
+            drag = { x: e.clientX, y: e.clientY, l: lbStage.scrollLeft, t: lbStage.scrollTop, moved: false };
+            lbImg.setPointerCapture(e.pointerId);
+        });
+        lbImg.addEventListener('pointermove', (e) => {
+            if (!drag) return;
+            const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+            if (Math.abs(dx) + Math.abs(dy) > 4) { drag.moved = true; lbImg.style.cursor = 'grabbing'; }
+            lbStage.scrollLeft = drag.l - dx; lbStage.scrollTop = drag.t - dy;
+        });
+        lbImg.addEventListener('pointerup', () => { lbImg.style.cursor = ''; setTimeout(() => { drag = null; }); });
         lbImg.addEventListener('click', (e) => {
             e.stopPropagation();
-            lbStage.classList.toggle('zoomed');
-            document.getElementById('lbHint').textContent = lbStage.classList.contains('zoomed')
-                ? 'Scroll to pan · click again to fit the screen'
-                : 'Click the image to see it at full size';
+            if (drag?.moved) return;
+            const r = contentRect();
+            const inside = e.clientX >= r.left && e.clientX <= r.left + r.width && e.clientY >= r.top && e.clientY <= r.top + r.height;
+            if (!inside) { lb.close(); return; }  // the letterbox around a fitted image acts as backdrop
+            setZoom(level === 0 ? 2 : 0, level === 0 ? { x: e.clientX, y: e.clientY } : null);
         });
         lbStage.addEventListener('click', (e) => { if (e.target === lbStage) lb.close(); });
         lb.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
             if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+            if (e.key === '+' || e.key === '=') { e.preventDefault(); setZoom(level + 1); }
+            if (e.key === '-') { e.preventDefault(); setZoom(level - 1); }
+            if (e.key === '0') { e.preventDefault(); setZoom(0); }
         });
         // Returning to the screenshot that was being viewed keeps the carousel in sync.
         lb.addEventListener('close', () => {
