@@ -53,6 +53,24 @@
         .nav-btn:hover:not(:disabled) { border-color: var(--accent); color: #fff; }
         .nav-btn:disabled { opacity: .35; cursor: default; }
         .accent-dot { width: 10px; height: 10px; border-radius: 3px; background: var(--accent); flex: none; }
+        .zoomable { cursor: zoom-in; }
+
+        /* Lightbox: fits the screen first; clicking the image switches to actual size and pans. */
+        #lightbox { width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: transparent; color: #e2e8f0; }
+        #lightbox::backdrop { background: rgb(2 6 23 / 0.92); backdrop-filter: blur(6px); }
+        #lightbox[open] { display: flex; flex-direction: column; animation: lb-in .35s cubic-bezier(.16,1,.3,1); }
+        @keyframes lb-in { from { opacity: 0; transform: scale(.98); } }
+        @media (prefers-reduced-motion: reduce) { #lightbox[open] { animation: none; } }
+        .lb-stage { flex: 1; min-height: 0; overflow: auto; display: grid; place-items: center; padding: 0 max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px)); }
+        .lb-stage img { max-width: 100%; max-height: 100%; width: auto; height: auto; border-radius: 10px; cursor: zoom-in; box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.7); }
+        .lb-stage.zoomed { place-items: start; }
+        .lb-stage.zoomed img { max-width: none; max-height: none; cursor: zoom-out; border-radius: 0; }
+        .lb-bar { display: flex; align-items: center; gap: 12px; padding: 12px max(16px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+        .lb-top { padding-top: calc(12px + env(safe-area-inset-top, 0px)); padding-bottom: 12px; }
+        .lb-btn { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 999px; border: 1px solid rgb(71 85 105); color: #e2e8f0; background: rgb(15 23 42 / 0.6); transition: border-color .2s, background-color .2s; flex: none; }
+        .lb-btn:hover:not(:disabled) { border-color: #60a5fa; background: rgb(30 41 59); }
+        .lb-btn:disabled { opacity: .3; }
+        .lb-btn[hidden] { display: none; }
         .stack dt { color: rgb(148 163 184); }
         .stack dd { color: rgb(203 213 225); }
     </style>
@@ -378,6 +396,23 @@
         </div>
     </footer>
 
+    <dialog id="lightbox" aria-label="Screenshot viewer">
+        <div class="lb-bar lb-top">
+            <p id="lbTitle" class="text-sm font-medium text-white flex-1 min-w-0 truncate"></p>
+            <p id="lbCount" class="mono text-xs text-gray-400"></p>
+            <button id="lbClose" class="lb-btn" type="button" aria-label="Close viewer"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+        </div>
+        <div id="lbStage" class="lb-stage"><img id="lbImg" alt=""></div>
+        <div class="lb-bar">
+            <button id="lbPrev" class="lb-btn" type="button" aria-label="Previous screenshot"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg></button>
+            <div class="flex-1 min-w-0 text-center">
+                <p id="lbCaption" class="text-sm text-gray-300"></p>
+                <p id="lbHint" class="mt-1 text-xs text-gray-400">Click the image to see it at full size</p>
+            </div>
+            <button id="lbNext" class="lb-btn" type="button" aria-label="Next screenshot"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>
+        </div>
+    </dialog>
+
     <script>
         const toggle = document.getElementById('navToggle');
         const menu = document.getElementById('mobileMenu');
@@ -434,6 +469,86 @@
             }, { root: track, threshold: 0.6 });
             slides.forEach((s) => io.observe(s));
             show(0);
+        });
+
+        // Lightbox. Each carousel is one gallery; a smaller-project thumbnail is a gallery of one.
+        // The full-resolution file (name-lg.webp) loads only when opened; the already-loaded
+        // smaller image shows meanwhile.
+        const lb = document.getElementById('lightbox');
+        const lbImg = document.getElementById('lbImg');
+        const lbStage = document.getElementById('lbStage');
+        const lbPrev = document.getElementById('lbPrev');
+        const lbNext = document.getElementById('lbNext');
+        let gallery = [], index = 0, opener = null;
+
+        const fullSrc = (img) => img.dataset.full || img.currentSrc || img.src;
+        document.querySelectorAll('[data-carousel] .track img').forEach((img) => {
+            img.dataset.full = img.getAttribute('src').replace(/\.webp$/, '-lg.webp');
+        });
+
+        function render() {
+            const img = gallery[index];
+            lbStage.classList.remove('zoomed');
+            lbImg.src = img.currentSrc || img.src;
+            lbImg.alt = img.alt;
+            const full = new Image();
+            full.onload = () => { if (gallery[index] === img) lbImg.src = full.src; };
+            full.src = fullSrc(img);
+            const title = img.closest('article, li')?.querySelector('h2, h3')?.textContent.trim() || '';
+            document.getElementById('lbTitle').textContent = title;
+            document.getElementById('lbCaption').textContent = img.dataset.caption || img.alt;
+            document.getElementById('lbCount').textContent = gallery.length > 1 ? `${index + 1} / ${gallery.length}` : '';
+            lbPrev.hidden = lbNext.hidden = gallery.length < 2;
+            lbPrev.disabled = index === 0;
+            lbNext.disabled = index === gallery.length - 1;
+        }
+        function openLightbox(img) {
+            const carousel = img.closest('[data-carousel]');
+            gallery = carousel ? [...carousel.querySelectorAll('.track img')] : [img];
+            index = gallery.indexOf(img);
+            opener = img;
+            render();
+            lb.showModal();
+            document.getElementById('lbClose').focus();
+        }
+        function step(d) {
+            const i = index + d;
+            if (i < 0 || i >= gallery.length) return;
+            index = i;
+            render();
+        }
+
+        document.querySelectorAll('[data-carousel] .track img, #more img').forEach((img) => {
+            img.classList.add('zoomable');
+            img.tabIndex = 0;
+            img.setAttribute('role', 'button');
+            img.setAttribute('aria-label', `Enlarge: ${img.alt}`);
+            img.addEventListener('click', () => openLightbox(img));
+            img.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(img); }
+            });
+        });
+        lbPrev.addEventListener('click', () => step(-1));
+        lbNext.addEventListener('click', () => step(1));
+        document.getElementById('lbClose').addEventListener('click', () => lb.close());
+        lbImg.addEventListener('click', (e) => {
+            e.stopPropagation();
+            lbStage.classList.toggle('zoomed');
+            document.getElementById('lbHint').textContent = lbStage.classList.contains('zoomed')
+                ? 'Scroll to pan · click again to fit the screen'
+                : 'Click the image to see it at full size';
+        });
+        lbStage.addEventListener('click', (e) => { if (e.target === lbStage) lb.close(); });
+        lb.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+            if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+        });
+        // Returning to the screenshot that was being viewed keeps the carousel in sync.
+        lb.addEventListener('close', () => {
+            const img = gallery[index];
+            const track = img.closest('.track');
+            if (track) track.scrollTo({ left: img.closest('figure').offsetLeft - track.offsetLeft, behavior: 'instant' });
+            (img || opener)?.focus({ preventScroll: true });
         });
     </script>
 </body>
