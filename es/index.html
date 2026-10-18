@@ -184,7 +184,7 @@
             <p class="text-gray-400 mb-10 max-w-2xl">Nada de maquetas: son aplicaciones en producción que diseño, programo y mantengo yo mismo.</p>
 
             <div class="grid lg:grid-cols-5 gap-8 items-center bg-slate-800 border border-slate-700 rounded-2xl p-6 mb-8">
-                <img src="/assets/screenshots/eventoslocales.png" alt="Captura de EventosLocales.net, la agenda de eventos de Málaga" class="lg:col-span-3 w-full rounded-xl border border-slate-700" loading="lazy">
+                <img src="/assets/screenshots/apps/eventos-1.webp" width="1600" height="1000" alt="Captura de EventosLocales.net, la agenda de eventos de Málaga" class="lg:col-span-3 w-full rounded-xl border border-slate-700" loading="lazy">
                 <div class="lg:col-span-2">
                     <p class="text-xs uppercase tracking-widest text-blue-400 font-semibold mb-2">Datos + automatización + IA</p>
                     <h3 class="text-2xl font-semibold text-white mb-3">EventosLocales.net</h3>
@@ -198,25 +198,36 @@
                 </div>
             </div>
 
-            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                <div class="bg-slate-800 border border-slate-700 rounded-xl p-5">
-                    <h3 class="font-semibold text-white mb-1">Entrenador personal con IA</h3>
-                    <p class="text-gray-400 text-sm">App de gimnasio con un coach de IA que propone y ajusta tus entrenamientos. Web, iOS y Android.</p>
-                </div>
-                <div class="bg-slate-800 border border-slate-700 rounded-xl p-5">
-                    <h3 class="font-semibold text-white mb-1">Visión artificial</h3>
-                    <p class="text-gray-400 text-sm">Haces una foto a una prenda y la IA la clasifica sola: tipo, colores, estampado y temporada.</p>
-                </div>
-                <div class="bg-slate-800 border border-slate-700 rounded-xl p-5">
-                    <h3 class="font-semibold text-white mb-1">Finanzas con banca abierta</h3>
-                    <p class="text-gray-400 text-sm">Gestor de gastos multicuenta y multidivisa que se sincroniza con el banco y muestra el flujo de caja.</p>
-                </div>
-                <div class="bg-slate-800 border border-slate-700 rounded-xl p-5">
-                    <h3 class="font-semibold text-white mb-1">Gestión de un club deportivo</h3>
-                    <p class="text-gray-400 text-sm">Jugadores, categorías, cuotas, torneos y clasificaciones para un club de beach tennis de Málaga (en desarrollo).</p>
-                </div>
+            <div class="grid md:grid-cols-3 gap-5">
+                <a href="https://chess.tellezlabs.com" target="_blank" rel="noopener" class="group bg-slate-800 border border-slate-700 rounded-xl overflow-hidden flex flex-col hover:border-blue-500/60 transition">
+                    <img src="/assets/screenshots/apps/chess-2.webp" width="1600" height="1000" alt="Revisión de una partida en ChessHelper con el tablero y los errores marcados" class="w-full aspect-[16/10] object-cover object-top border-b border-slate-700" loading="lazy">
+                    <div class="p-5 flex flex-col flex-1">
+                        <h3 class="font-semibold text-white mb-1">ChessHelper: entrenador de ajedrez con IA</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Analiza con Stockfish cada partida de chess.com o Lichess, etiqueta tus errores, crea ejercicios con tus propios fallos y escribe informes de entrenador con IA.</p>
+                        <p class="mt-3 text-xs text-gray-500">FastAPI · Stockfish · Gemini · React · iPhone</p>
+                        <span class="mt-4 text-blue-400 group-hover:text-blue-300 text-sm font-medium">Ver ChessHelper ↗</span>
+                    </div>
+                </a>
+                <a href="https://gym.tellezlabs.com" target="_blank" rel="noopener" class="group bg-slate-800 border border-slate-700 rounded-xl overflow-hidden flex flex-col hover:border-blue-500/60 transition">
+                    <img src="/assets/screenshots/apps/gym-1.webp" width="1600" height="1000" alt="Pantalla de hoy de GymHelper con el entrenamiento del día y la racha" class="w-full aspect-[16/10] object-cover object-top border-b border-slate-700" loading="lazy">
+                    <div class="p-5 flex flex-col flex-1">
+                        <h3 class="font-semibold text-white mb-1">GymHelper: gimnasio con entrenador IA</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Genera tu plan según objetivo, nivel y material, registra lo que levantas de verdad y tiene un coach de IA que responde con tus datos. Web, iOS y Android.</p>
+                        <p class="mt-3 text-xs text-gray-500">FastAPI · PostgreSQL · Gemini · React · Capacitor</p>
+                        <span class="mt-4 text-blue-400 group-hover:text-blue-300 text-sm font-medium">Ver GymHelper ↗</span>
+                    </div>
+                </a>
+                <a href="https://guitar.tellezlabs.com" target="_blank" rel="noopener" class="group bg-slate-800 border border-slate-700 rounded-xl overflow-hidden flex flex-col hover:border-blue-500/60 transition">
+                    <img src="/assets/screenshots/apps/guitar-1.webp" width="1600" height="1000" alt="Inicio de GuitarHelper con el plan de práctica y las canciones que ya puedes tocar" class="w-full aspect-[16/10] object-cover object-top border-b border-slate-700" loading="lazy">
+                    <div class="p-5 flex flex-col flex-1">
+                        <h3 class="font-semibold text-white mb-1">GuitarHelper: aprende guitarra</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Con los acordes que sabes te dice qué canciones puedes tocar, qué acorde aprender después y qué practicar hoy. Afinador y metrónomo sin conexión.</p>
+                        <p class="mt-3 text-xs text-gray-500">FastAPI · PostgreSQL · React · PWA · Web Audio</p>
+                        <span class="mt-4 text-blue-400 group-hover:text-blue-300 text-sm font-medium">Ver GuitarHelper ↗</span>
+                    </div>
+                </a>
             </div>
-            <p class="mt-6 text-sm"><a href="/projects" class="text-blue-400 hover:text-blue-300" hreflang="en">Ver todos los proyectos (en inglés) →</a></p>
+            <p class="mt-6 text-sm"><a href="/projects" class="text-blue-400 hover:text-blue-300" hreflang="en">Ver todos los proyectos, con capturas y tecnologías (en inglés) →</a></p>
         </div>
     </section>
 

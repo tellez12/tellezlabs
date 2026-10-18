@@ -3,26 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Projects — Luis Tellez</title>
-    <meta name="description" content="A handful of full-stack apps Luis Tellez built and self-hosts on a home server — FastAPI/Go APIs, Postgres/MySQL, React frontends, behind Traefik and a Cloudflare Tunnel.">
+    <title>Projects — Luis Tellez</title>
+    <meta name="description" content="Apps Luis Tellez designs, builds and runs in production: EventosLocales.net, ChessHelper, GymHelper and GuitarHelper. FastAPI, Postgres, React and AI, self-hosted with Docker.">
     <meta name="author" content="Luis Tellez">
-    <link rel="canonical" href="https://tellezlabs.com/projects.html">
+    <link rel="canonical" href="https://tellezlabs.com/projects">
+    <link rel="alternate" hreflang="en" href="https://tellezlabs.com/projects">
+    <link rel="alternate" hreflang="es" href="https://tellezlabs.com/es/#proyectos">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://tellezlabs.com/projects.html">
-    <meta property="og:title" content="Home Projects — Luis Tellez">
-    <meta property="og:description" content="Full-stack apps built and self-hosted on a home server, behind Traefik and a Cloudflare Tunnel.">
-    <meta property="og:image" content="https://tellezlabs.com/badge2.jpg">
+    <meta property="og:url" content="https://tellezlabs.com/projects">
+    <meta property="og:title" content="Projects — Luis Tellez">
+    <meta property="og:description" content="Four apps in production: an events guide for Málaga, a chess coach, a gym tracker and a guitar practice companion.">
+    <meta property="og:image" content="https://tellezlabs.com/assets/screenshots/apps/og-projects.jpg">
 
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Home Projects — Luis Tellez">
-    <meta name="twitter:description" content="Full-stack apps built and self-hosted on a home server.">
-    <meta name="twitter:image" content="https://tellezlabs.com/badge2.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Projects — Luis Tellez">
+    <meta name="twitter:description" content="Four apps in production, designed, built and run by Luis Tellez.">
+    <meta name="twitter:image" content="https://tellezlabs.com/assets/screenshots/apps/og-projects.jpg">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' font-weight='bold' fill='%233b82f6'>T</text></svg>">
+    <style>
+        :root { color-scheme: dark; }
+        body { font-family: 'Schibsted Grotesk', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; -webkit-font-smoothing: antialiased; }
+        .mono { font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace; }
+        h1, h2, h3 { text-wrap: balance; letter-spacing: -0.025em; }
+        ::selection { background: rgb(59 130 246 / 0.4); color: #fff; }
+        a, button { -webkit-tap-highlight-color: transparent; }
+        :focus-visible { outline: 2px solid #60a5fa; outline-offset: 3px; border-radius: 6px; }
+        a.link { text-decoration: underline; text-decoration-color: rgb(96 165 250 / 0.4); text-underline-offset: 4px; transition: text-decoration-color .2s; }
+        a.link:hover { text-decoration-color: #60a5fa; }
+
+        /* Carousel: native horizontal scroll with snap, so touch swipe and trackpads just work. */
+        .track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; }
+        .track::-webkit-scrollbar { display: none; }
+        .track > figure { flex: 0 0 100%; scroll-snap-align: start; margin: 0; }
+        .track img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
+        @media (prefers-reduced-motion: reduce) { .track { scroll-behavior: auto; } }
+
+        .shot { box-shadow: 0 1px 0 rgb(255 255 255 / 0.06) inset, 0 24px 48px -16px rgb(0 0 0 / 0.6), 0 8px 16px -8px rgb(0 0 0 / 0.5); }
+        .dot { width: 6px; height: 6px; border-radius: 999px; background: rgb(148 163 184 / 0.35); transition: width .35s cubic-bezier(.16,1,.3,1), background-color .35s; }
+        .dot[aria-current="true"] { width: 22px; background: var(--accent); }
+        .nav-btn { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 999px; border: 1px solid rgb(51 65 85); color: rgb(203 213 225); transition: border-color .2s, color .2s, background-color .2s; }
+        .nav-btn:hover:not(:disabled) { border-color: var(--accent); color: #fff; }
+        .nav-btn:disabled { opacity: .35; cursor: default; }
+        .accent-dot { width: 10px; height: 10px; border-radius: 3px; background: var(--accent); flex: none; }
+        .stack dt { color: rgb(148 163 184); }
+        .stack dd { color: rgb(203 213 225); }
+    </style>
 </head>
 <body class="bg-slate-900 text-gray-100">
 
@@ -35,16 +68,17 @@
                 </div>
                 <div class="leading-tight">
                     <div class="text-sm font-semibold text-white">Luis Tellez</div>
-                    <div class="text-xs text-gray-500 hidden sm:block">Senior Software Engineer</div>
+                    <div class="text-xs text-gray-400 hidden sm:block">Senior Software Engineer</div>
                 </div>
             </a>
             <div class="hidden sm:flex items-center space-x-6 text-sm">
                 <a href="index.html" class="hover:text-blue-400 transition text-gray-300">About</a>
-                <a href="projects.html" class="text-blue-400 font-semibold">Projects</a>
+                <a href="projects.html" class="text-blue-400 font-semibold" aria-current="page">Projects</a>
                 <a href="resume.html" class="hover:text-blue-400 transition text-gray-300">Resume</a>
                 <a href="tools.html" class="hover:text-blue-400 transition text-gray-300">Tools</a>
+                <a href="/es/" hreflang="es" class="hover:text-blue-400 transition text-gray-400 text-xs border border-slate-600 rounded px-1.5 py-0.5">ES</a>
             </div>
-            <button id="navToggle" class="sm:hidden text-gray-300 hover:text-white" aria-label="Menu">
+            <button id="navToggle" class="sm:hidden text-gray-300 hover:text-white" aria-label="Menu" aria-expanded="false">
                 <svg id="iconMenu" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                 <svg id="iconClose" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
@@ -54,166 +88,293 @@
             <a href="projects.html" class="block py-2 text-blue-400 font-semibold text-sm">Projects</a>
             <a href="resume.html" class="block py-2 text-gray-300 hover:text-blue-400 transition text-sm">Resume</a>
             <a href="tools.html" class="block py-2 text-gray-300 hover:text-blue-400 transition text-sm">Tools</a>
+            <a href="/es/" hreflang="es" class="block py-2 text-gray-300 hover:text-blue-400 transition text-sm">Español · Servicios</a>
         </div>
     </nav>
 
-    <!-- Home Projects -->
-    <section class="py-14">
-        <div class="max-w-5xl mx-auto px-4">
-            <h1 class="text-xs font-bold text-blue-400 uppercase tracking-widest mb-3 text-center">Home Projects</h1>
-            <p class="text-gray-400 text-sm leading-relaxed max-w-2xl mx-auto text-center mb-10">
-                A handful of full-stack apps I built and run for myself, all self-hosted on a home server.
-                Traffic reaches them through a Cloudflare Tunnel into Traefik, which reverse-proxies to a set of
-                Dockerized services (FastAPI/Go APIs, Postgres/MySQL, React frontends) — no ports forwarded on my router.
-                Everything ships as its own <code class="text-gray-300">docker-compose.yml</code>, composed together on the host.
-            </p>
+    <main>
+    <!-- Intro -->
+    <header class="max-w-6xl mx-auto px-4 pt-16 pb-8 sm:pt-24 sm:pb-12">
+        <h1 class="text-4xl sm:text-5xl font-semibold text-white leading-[1.05] max-w-3xl">Apps I build, ship and keep running.</h1>
+        <p class="mt-6 text-gray-400 text-lg leading-relaxed max-w-2xl">
+            Four products I designed and wrote end to end, each live and in daily use. Every one runs as its own
+            Docker Compose stack on a home server, reached through a Cloudflare Tunnel and Traefik, with secrets in
+            AWS Parameter Store. Swipe through the screenshots; they were taken from demo accounts this week.
+        </p>
+        <nav aria-label="Projects on this page" class="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+            <a href="#eventoslocales" class="link text-gray-300 hover:text-white">EventosLocales.net</a>
+            <a href="#chesshelper" class="link text-gray-300 hover:text-white">ChessHelper</a>
+            <a href="#gymhelper" class="link text-gray-300 hover:text-white">GymHelper</a>
+            <a href="#guitarhelper" class="link text-gray-300 hover:text-white">GuitarHelper</a>
+            <a href="#more" class="link text-gray-400 hover:text-white">Smaller projects</a>
+        </nav>
+    </header>
 
-            <div class="grid sm:grid-cols-2 gap-6">
+    <!-- Featured projects. Each <article> sets --accent to the app's own brand colour. -->
+    <div class="max-w-6xl mx-auto px-4 divide-y divide-slate-800">
 
-                <!-- 1. eventoslocales -->
-                <div class="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden flex flex-col">
-                    <img src="assets/screenshots/eventoslocales.png" alt="eventoslocales screenshot" class="w-full aspect-video object-cover border-b border-slate-700">
-                    <div class="p-5 flex flex-col flex-1">
-                        <div class="flex items-center justify-between mb-2">
-                            <h3 class="font-semibold text-white text-sm">eventoslocales</h3>
-                            <a href="https://eventos.tellezlabs.com" target="_blank" rel="noopener" class="text-blue-400 hover:text-blue-300 text-xs">Visit ↗</a>
-                        </div>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-3">
-                            Local events aggregator for Málaga, Spain. Ingests events (incl. Ticketmaster) and sends
-                            ticket on-sale alerts over Telegram/email so users don't miss a drop.
-                        </p>
-                        <div class="mt-auto flex flex-wrap gap-1.5">
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">FastAPI</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">PostgreSQL + PostGIS</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">Redis</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">React + Vite</span>
-                        </div>
+        <!-- EventosLocales -->
+        <article id="eventoslocales" class="py-16 sm:py-20 grid lg:grid-cols-12 gap-10 lg:gap-14 items-start scroll-mt-24" style="--accent:#dc2626">
+            <div class="lg:col-span-7" data-carousel aria-roledescription="carousel" aria-label="EventosLocales.net screenshots">
+                <div class="shot rounded-xl overflow-hidden border border-slate-700/70 bg-slate-950">
+                    <div class="track" tabindex="0" aria-label="Screenshots, use arrow keys to move">
+                        <figure><img src="assets/screenshots/apps/eventos-1.webp" width="1600" height="1000" alt="Event listing for Málaga: flamenco, rock and tribute shows with dates and venues" data-caption="Upcoming events in Málaga, merged from more than a dozen sources"></figure>
+                        <figure><img src="assets/screenshots/apps/eventos-2.webp" width="1600" height="1000" alt="Event page with poster, date, venue, price, ticket button, share buttons and an alert box" loading="lazy" data-caption="Every event gets its own shareable page with dates, tickets and alerts"></figure>
+                        <figure><img src="assets/screenshots/apps/eventos-3.webp" width="1600" height="1000" alt="Stand-up comedy landing page listing 144 events in Málaga" loading="lazy" data-caption="Search-friendly landing pages: comedy, concerts, theatre, this weekend"></figure>
+                        <figure><img src="assets/screenshots/apps/eventos-4.webp" width="1600" height="1000" alt="Home page with topic links, search filters and event cards" loading="lazy" data-caption="Filter by town, category, distance and dates"></figure>
                     </div>
                 </div>
-
-                <!-- 2. BeachTennis -->
-                <div class="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden flex flex-col">
-                    <img src="assets/screenshots/beachtennis.svg" alt="BeachTennis screenshot" class="w-full aspect-video object-cover border-b border-slate-700">
-                    <div class="p-5 flex flex-col flex-1">
-                        <div class="flex items-center justify-between mb-2">
-                            <h3 class="font-semibold text-white text-sm">Beach Tennis Málaga</h3>
-                            <a href="https://beachtennis.tellezlabs.com" target="_blank" rel="noopener" class="text-blue-400 hover:text-blue-300 text-xs">Visit ↗</a>
-                        </div>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-3">
-                            Tournament and league management for a local beach tennis club — players, categories,
-                            memberships, brackets, and leaderboards. Currently a "coming soon" landing page while
-                            the full app finishes development.
-                        </p>
-                        <div class="mt-auto flex flex-wrap gap-1.5">
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">FastAPI</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">MySQL</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">React + TS + Tailwind</span>
-                        </div>
-                    </div>
+                <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-3">
+                    <p class="caption text-sm text-gray-400 basis-full sm:basis-0 sm:flex-1 min-w-0" aria-live="polite"></p>
+                    <div class="dots flex items-center gap-1.5 mr-auto sm:mr-0"></div>
+                    <button class="nav-btn prev" type="button" aria-label="Previous screenshot"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg></button>
+                    <button class="nav-btn next" type="button" aria-label="Next screenshot"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>
                 </div>
-
-                <!-- 3. HabitTracker -->
-                <div class="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden flex flex-col">
-                    <img src="assets/screenshots/habittracker.png" alt="HabitTracker screenshot" class="w-full aspect-video object-cover border-b border-slate-700">
-                    <div class="p-5 flex flex-col flex-1">
-                        <div class="flex items-center justify-between mb-2">
-                            <h3 class="font-semibold text-white text-sm">HabitTracker</h3>
-                            <a href="https://habits.tellezlabs.com" target="_blank" rel="noopener" class="text-blue-400 hover:text-blue-300 text-xs">Visit ↗</a>
-                        </div>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-3">
-                            Habit tracking with streaks, activity heatmaps, and habit packs. Installs as a PWA and
-                            also ships as a native mobile app via Capacitor.
-                        </p>
-                        <div class="mt-auto flex flex-wrap gap-1.5">
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">FastAPI</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">PostgreSQL</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">React + Vite</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">Capacitor</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 4. TimeHelper -->
-                <div class="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden flex flex-col">
-                    <img src="assets/screenshots/timehelper.png" alt="TimeHelper screenshot" class="w-full aspect-video object-cover border-b border-slate-700">
-                    <div class="p-5 flex flex-col flex-1">
-                        <div class="flex items-center justify-between mb-2">
-                            <h3 class="font-semibold text-white text-sm">TimeHelper</h3>
-                            <a href="https://timehelper.tellezlabs.com" target="_blank" rel="noopener" class="text-blue-400 hover:text-blue-300 text-xs">Visit ↗</a>
-                        </div>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-3">
-                            Personal time-tracking and productivity app — a running timer, journaling, and
-                            dashboards to see where the hours actually go.
-                        </p>
-                        <div class="mt-auto flex flex-wrap gap-1.5">
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">FastAPI</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">PostgreSQL</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">React 19 + TS</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">Supabase Auth</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 5. FinalTodoList -->
-                <div class="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden flex flex-col">
-                    <img src="assets/screenshots/finaltodolist.png" alt="FinalTodoList screenshot" class="w-full aspect-video object-cover border-b border-slate-700">
-                    <div class="p-5 flex flex-col flex-1">
-                        <div class="flex items-center justify-between mb-2">
-                            <h3 class="font-semibold text-white text-sm">FinalTodoList</h3>
-                            <a href="https://todo.tellezlabs.com" target="_blank" rel="noopener" class="text-blue-400 hover:text-blue-300 text-xs">Visit ↗</a>
-                        </div>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-3">
-                            Real-time collaborative to-do app with Pomodoro timers, time tracking, and offline
-                            support — one codebase for web, iOS, and Android.
-                        </p>
-                        <div class="mt-auto flex flex-wrap gap-1.5">
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">FastAPI + WebSockets</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">PostgreSQL</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">React Native + Expo</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">Redux Toolkit</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 6. ExpenseManager -->
-                <div class="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden flex flex-col">
-                    <img src="assets/screenshots/expensemanager.png" alt="ExpenseManager screenshot" class="w-full aspect-video object-cover border-b border-slate-700">
-                    <div class="p-5 flex flex-col flex-1">
-                        <div class="flex items-center justify-between mb-2">
-                            <h3 class="font-semibold text-white text-sm">Vault (Expense Manager)</h3>
-                            <a href="https://expenses.tellezlabs.com" target="_blank" rel="noopener" class="text-blue-400 hover:text-blue-300 text-xs">Visit ↗</a>
-                        </div>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-3">
-                            Self-hosted personal finance manager — multi-account and multi-currency tracking,
-                            open-banking sync, and net-worth/cash-flow dashboards.
-                        </p>
-                        <div class="mt-auto flex flex-wrap gap-1.5">
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">FastAPI</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">PostgreSQL</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">React + TS</span>
-                            <span class="bg-slate-900 border border-slate-700 text-gray-400 text-[11px] px-2 py-1 rounded-full">Open Banking API</span>
-                        </div>
-                    </div>
-                </div>
-
             </div>
+            <div class="lg:col-span-5 min-w-0">
+                <div class="flex items-center gap-3"><span class="accent-dot"></span><h2 class="text-3xl font-semibold text-white">EventosLocales.net</h2></div>
+                <p class="mt-2 text-sm text-gray-400">Public product · Spanish and English · own domain, SEO and analytics</p>
+                <p class="mt-6 text-gray-300 leading-relaxed">
+                    What's on in Málaga province, in one place. Every day a worker pulls events from theatres, clubs,
+                    town-hall agendas, Fever and Ticketmaster, works out which listings are the same show, groups a
+                    run of dates into one event, and tracks when tickets go on sale or sell out.
+                </p>
+                <ul class="mt-5 space-y-2 text-sm text-gray-400 leading-relaxed list-disc pl-5 marker:text-slate-600">
+                    <li>Cross-source de-duplication by venue, date and fuzzy title, plus a daily merge job</li>
+                    <li>Server-rendered SEO heads, schema.org events and a sitemap for a React SPA</li>
+                    <li>Alerts, venue and artist follows, calendar files and per-event traffic stats</li>
+                </ul>
+                <dl class="stack mono mt-7 grid grid-cols-[6.5rem_1fr] gap-x-4 gap-y-2 text-[13px]">
+                    <dt>Backend</dt><dd>Python 3 · FastAPI · SQLAlchemy 2 async · Alembic</dd>
+                    <dt>Data</dt><dd>PostgreSQL 16 + PostGIS · Redis</dd>
+                    <dt>Ingest</dt><dd>Source connectors · Playwright · worker</dd>
+                    <dt>Frontend</dt><dd>React · Vite · TypeScript · nginx SSI</dd>
+                    <dt>Ops</dt><dd>Docker · Traefik · Cloudflare · Umami</dd>
+                </dl>
+                <a href="https://eventoslocales.net/?utm_source=tellezlabs&amp;utm_medium=portfolio" target="_blank" rel="noopener" class="mt-8 inline-flex items-center gap-2 rounded-lg bg-white text-slate-900 font-medium text-sm px-4 py-2.5 hover:bg-blue-100 transition">Visit eventoslocales.net <span aria-hidden="true">↗</span></a>
+            </div>
+        </article>
+
+        <!-- ChessHelper -->
+        <article id="chesshelper" class="py-16 sm:py-20 grid lg:grid-cols-12 gap-10 lg:gap-14 items-start scroll-mt-24" style="--accent:#f97316">
+            <div class="lg:col-span-7 lg:order-2" data-carousel aria-roledescription="carousel" aria-label="ChessHelper screenshots">
+                <div class="shot rounded-xl overflow-hidden border border-slate-700/70 bg-slate-950">
+                    <div class="track" tabindex="0" aria-label="Screenshots, use arrow keys to move">
+                        <figure><img src="assets/screenshots/apps/chess-1.webp" width="1600" height="1000" alt="Dashboard with games, score, accuracy, a daily challenge and a skills radar chart" loading="lazy" data-caption="Your profile at a glance: accuracy, blunders per game and a skills radar"></figure>
+                        <figure><img src="assets/screenshots/apps/chess-2.webp" width="1600" height="1000" alt="Game review with board, move list annotated with mistakes and best moves, and the mistakes panel" loading="lazy" data-caption="Every finished game reviewed by Stockfish, move by move"></figure>
+                        <figure><img src="assets/screenshots/apps/chess-3.webp" width="1600" height="1000" alt="Analysis page ranking mistake patterns such as hanging pieces, missed tactics and forks" loading="lazy" data-caption="Mistakes tagged by pattern across 48,000 moves"></figure>
+                        <figure><img src="assets/screenshots/apps/chess-4.webp" width="1600" height="1000" alt="Training page with a puzzle taken from one of the player's own games" loading="lazy" data-caption="Puzzles built from your own blunders, with spaced repetition"></figure>
+                    </div>
+                </div>
+                <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-3">
+                    <p class="caption text-sm text-gray-400 basis-full sm:basis-0 sm:flex-1 min-w-0" aria-live="polite"></p>
+                    <div class="dots flex items-center gap-1.5 mr-auto sm:mr-0"></div>
+                    <button class="nav-btn prev" type="button" aria-label="Previous screenshot"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg></button>
+                    <button class="nav-btn next" type="button" aria-label="Next screenshot"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>
+                </div>
+            </div>
+            <div class="lg:col-span-5 lg:order-1 min-w-0">
+                <div class="flex items-center gap-3"><span class="accent-dot"></span><h2 class="text-3xl font-semibold text-white">ChessHelper</h2></div>
+                <p class="mt-2 text-sm text-gray-400">Chess coach for chess.com and Lichess players · web + iPhone</p>
+                <p class="mt-6 text-gray-300 leading-relaxed">
+                    Connect your chess.com or Lichess account and every game you finish gets analysed by Stockfish.
+                    ChessHelper labels each mistake (hanging piece, missed fork, endgame technique), shows where you
+                    lose games by phase, clock and opening, and turns your own blunders into puzzles.
+                </p>
+                <ul class="mt-5 space-y-2 text-sm text-gray-400 leading-relaxed list-disc pl-5 marker:text-slate-600">
+                    <li>Background engine worker analysing thousands of games per profile</li>
+                    <li>Rule-based study plan and tilt detection, with no guesswork from the AI</li>
+                    <li>Coaching reports written by Gemini from the engine's numbers, in four coach voices</li>
+                </ul>
+                <dl class="stack mono mt-7 grid grid-cols-[6.5rem_1fr] gap-x-4 gap-y-2 text-[13px]">
+                    <dt>Backend</dt><dd>Python 3 · FastAPI · SQLAlchemy 2 · Alembic</dd>
+                    <dt>Engine</dt><dd>Stockfish worker · python-chess</dd>
+                    <dt>AI</dt><dd>Google Gemini (coaching reports)</dd>
+                    <dt>Frontend</dt><dd>React 19 · Vite · TypeScript · Tailwind 4</dd>
+                    <dt>Mobile</dt><dd>SwiftUI iPhone app</dd>
+                    <dt>Data</dt><dd>PostgreSQL 16</dd>
+                </dl>
+                <a href="https://chess.tellezlabs.com" target="_blank" rel="noopener" class="mt-8 inline-flex items-center gap-2 rounded-lg bg-white text-slate-900 font-medium text-sm px-4 py-2.5 hover:bg-blue-100 transition">Open ChessHelper <span aria-hidden="true">↗</span></a>
+            </div>
+        </article>
+
+        <!-- GymHelper -->
+        <article id="gymhelper" class="py-16 sm:py-20 grid lg:grid-cols-12 gap-10 lg:gap-14 items-start scroll-mt-24" style="--accent:#3b82f6">
+            <div class="lg:col-span-7" data-carousel aria-roledescription="carousel" aria-label="GymHelper screenshots">
+                <div class="shot rounded-xl overflow-hidden border border-slate-700/70 bg-slate-950">
+                    <div class="track" tabindex="0" aria-label="Screenshots, use arrow keys to move">
+                        <figure><img src="assets/screenshots/apps/gym-1.webp" width="1600" height="1000" alt="Today screen with the next Push, Pull or Legs workout, a four-week streak and recent sessions" loading="lazy" data-caption="Today: pick the next day of your plan and start"></figure>
+                        <figure><img src="assets/screenshots/apps/gym-2.webp" width="1600" height="1000" alt="Progress screen with streak, total volume, weekly volume chart and muscle balance chart" loading="lazy" data-caption="Week-based streaks, volume and muscle balance"></figure>
+                        <figure><img src="assets/screenshots/apps/gym-3.webp" width="1600" height="1000" alt="Generated hypertrophy plan listing exercises with sets, reps and rest" loading="lazy" data-caption="A plan generated for your goal, level and equipment"></figure>
+                        <figure><img src="assets/screenshots/apps/gym-4.webp" width="1600" height="1000" alt="Exercise library with illustrations, muscle groups and equipment" loading="lazy" data-caption="A library of 1,300+ exercises with search and filters"></figure>
+                    </div>
+                </div>
+                <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-3">
+                    <p class="caption text-sm text-gray-400 basis-full sm:basis-0 sm:flex-1 min-w-0" aria-live="polite"></p>
+                    <div class="dots flex items-center gap-1.5 mr-auto sm:mr-0"></div>
+                    <button class="nav-btn prev" type="button" aria-label="Previous screenshot"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg></button>
+                    <button class="nav-btn next" type="button" aria-label="Next screenshot"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>
+                </div>
+            </div>
+            <div class="lg:col-span-5 min-w-0">
+                <div class="flex items-center gap-3"><span class="accent-dot"></span><h2 class="text-3xl font-semibold text-white">GymHelper</h2></div>
+                <p class="mt-2 text-sm text-gray-400">Gym tracker · web, iOS and Android</p>
+                <p class="mt-6 text-gray-300 leading-relaxed">
+                    A training log built around a real exercise library and a recommender that writes your plan from
+                    your goal, experience, schedule and equipment. It keeps what you planned apart from what you
+                    actually lifted, so progress, records and streaks reflect real sessions.
+                </p>
+                <ul class="mt-5 space-y-2 text-sm text-gray-400 leading-relaxed list-disc pl-5 marker:text-slate-600">
+                    <li>Deterministic recommender from curated movement patterns, no AI needed</li>
+                    <li>Optional AI coach (Gemini) that answers from your own plan and history</li>
+                    <li>Whoop recovery data and health-metric webhooks feed the dashboard</li>
+                </ul>
+                <dl class="stack mono mt-7 grid grid-cols-[6.5rem_1fr] gap-x-4 gap-y-2 text-[13px]">
+                    <dt>Backend</dt><dd>Python 3 · FastAPI async · SQLAlchemy 2 · Alembic</dd>
+                    <dt>AI</dt><dd>Google Gemini (coach, opt-in)</dd>
+                    <dt>Frontend</dt><dd>React 19 · Vite · TypeScript · Tailwind 4</dd>
+                    <dt>Mobile</dt><dd>Capacitor + native iOS and Android</dd>
+                    <dt>Data</dt><dd>PostgreSQL 16</dd>
+                </dl>
+                <a href="https://gym.tellezlabs.com" target="_blank" rel="noopener" class="mt-8 inline-flex items-center gap-2 rounded-lg bg-white text-slate-900 font-medium text-sm px-4 py-2.5 hover:bg-blue-100 transition">Open GymHelper <span aria-hidden="true">↗</span></a>
+            </div>
+        </article>
+
+        <!-- GuitarHelper -->
+        <article id="guitarhelper" class="py-16 sm:py-20 grid lg:grid-cols-12 gap-10 lg:gap-14 items-start scroll-mt-24" style="--accent:#f5b83d">
+            <div class="lg:col-span-7 lg:order-2" data-carousel aria-roledescription="carousel" aria-label="GuitarHelper screenshots">
+                <div class="shot rounded-xl overflow-hidden border border-slate-700/70 bg-slate-950">
+                    <div class="track" tabindex="0" aria-label="Screenshots, use arrow keys to move">
+                        <figure><img src="assets/screenshots/apps/guitar-1.webp" width="1600" height="1000" alt="Home screen with today's practice plan, the next chord to learn and songs you can play" loading="lazy" data-caption="A daily plan, the next chord to learn and songs you can already play"></figure>
+                        <figure><img src="assets/screenshots/apps/guitar-2.webp" width="1600" height="1000" alt="Song finder showing songs playable with the chords the user knows, with difficulty levels" loading="lazy" data-caption="Songs ranked by how close they are to your chord vocabulary"></figure>
+                        <figure><img src="assets/screenshots/apps/guitar-3.webp" width="1600" height="1000" alt="Chords page suggesting F, A, Dm and Bm by how many songs each unlocks, and an English to Spanish chord name quiz" loading="lazy" data-caption="Which chord unlocks the most songs, plus English and Spanish chord names"></figure>
+                        <figure><img src="assets/screenshots/apps/guitar-4.webp" width="1600" height="1000" alt="Strumming trainer with patterns, a beat lane, tempo slider and chord cycle settings" loading="lazy" data-caption="Strumming trainer, tuner and metronome that work offline"></figure>
+                    </div>
+                </div>
+                <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-3">
+                    <p class="caption text-sm text-gray-400 basis-full sm:basis-0 sm:flex-1 min-w-0" aria-live="polite"></p>
+                    <div class="dots flex items-center gap-1.5 mr-auto sm:mr-0"></div>
+                    <button class="nav-btn prev" type="button" aria-label="Previous screenshot"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg></button>
+                    <button class="nav-btn next" type="button" aria-label="Next screenshot"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>
+                </div>
+            </div>
+            <div class="lg:col-span-5 lg:order-1 min-w-0">
+                <div class="flex items-center gap-3"><span class="accent-dot"></span><h2 class="text-3xl font-semibold text-white">GuitarHelper</h2></div>
+                <p class="mt-2 text-sm text-gray-400">Practice companion for beginners · installable web app</p>
+                <p class="mt-6 text-gray-300 leading-relaxed">
+                    The chords you know decide everything else: which songs you can play today, how hard each one
+                    is, which chord to learn next and what goes into tomorrow's practice plan. Songs come from the top
+                    charts or are imported from Ultimate Guitar and LaCuerda.
+                </p>
+                <ul class="mt-5 space-y-2 text-sm text-gray-400 leading-relaxed list-disc pl-5 marker:text-slate-600">
+                    <li>Next chord ranked by how many of your songs it unlocks</li>
+                    <li>Tuner, metronome, strumming trainer and one-minute changes, all offline</li>
+                    <li>Deliberately no AI: every suggestion is explainable from your chords</li>
+                </ul>
+                <dl class="stack mono mt-7 grid grid-cols-[6.5rem_1fr] gap-x-4 gap-y-2 text-[13px]">
+                    <dt>Backend</dt><dd>Python 3 · FastAPI · SQLAlchemy 2 · Alembic</dd>
+                    <dt>Frontend</dt><dd>React 19 · Vite · TypeScript · Tailwind 4</dd>
+                    <dt>Audio</dt><dd>Web Audio API (tuner, metronome, strums)</dd>
+                    <dt>Delivery</dt><dd>PWA with offline practice tools</dd>
+                    <dt>Data</dt><dd>PostgreSQL 16</dd>
+                </dl>
+                <a href="https://guitar.tellezlabs.com" target="_blank" rel="noopener" class="mt-8 inline-flex items-center gap-2 rounded-lg bg-white text-slate-900 font-medium text-sm px-4 py-2.5 hover:bg-blue-100 transition">Open GuitarHelper <span aria-hidden="true">↗</span></a>
+            </div>
+        </article>
+    </div>
+
+    <!-- Smaller projects -->
+    <section id="more" class="border-t border-slate-800 bg-slate-950/40 scroll-mt-24">
+        <div class="max-w-6xl mx-auto px-4 py-16 sm:py-20">
+            <h2 class="text-2xl font-semibold text-white">Smaller projects</h2>
+            <p class="mt-3 text-gray-400 max-w-2xl leading-relaxed">Earlier apps on the same server. Smaller in scope, same setup: one Compose stack each, behind Traefik.</p>
+            <ul class="mt-10 grid md:grid-cols-2 gap-x-10 gap-y-8">
+                <li class="flex gap-5 items-start">
+                    <img src="assets/screenshots/habittracker.png" alt="HabitTracker screenshot" width="160" height="100" loading="lazy" class="w-32 sm:w-40 aspect-[16/10] object-cover object-top rounded-lg border border-slate-700/70 shrink-0">
+                    <div class="min-w-0">
+                        <h3 class="font-semibold text-white"><a href="https://habits.tellezlabs.com" target="_blank" rel="noopener" class="hover:text-blue-300">HabitTracker <span aria-hidden="true" class="text-gray-400">↗</span></a></h3>
+                        <p class="mt-1 text-sm text-gray-400 leading-relaxed">Streaks, activity heatmaps and habit packs. A PWA that also ships as a mobile app.</p>
+                        <p class="mono mt-2 text-xs text-gray-400">FastAPI · PostgreSQL · React · Capacitor</p>
+                    </div>
+                </li>
+                <li class="flex gap-5 items-start">
+                    <img src="assets/screenshots/timehelper.png" alt="TimeHelper screenshot" width="160" height="100" loading="lazy" class="w-32 sm:w-40 aspect-[16/10] object-cover object-top rounded-lg border border-slate-700/70 shrink-0">
+                    <div class="min-w-0">
+                        <h3 class="font-semibold text-white"><a href="https://timehelper.tellezlabs.com" target="_blank" rel="noopener" class="hover:text-blue-300">TimeHelper <span aria-hidden="true" class="text-gray-400">↗</span></a></h3>
+                        <p class="mt-1 text-sm text-gray-400 leading-relaxed">Time tracking with a running timer, journaling and dashboards of where the hours go.</p>
+                        <p class="mono mt-2 text-xs text-gray-400">FastAPI · PostgreSQL · React 19 · Supabase Auth</p>
+                    </div>
+                </li>
+                <li class="flex gap-5 items-start">
+                    <img src="assets/screenshots/finaltodolist.png" alt="FinalTodoList screenshot" width="160" height="100" loading="lazy" class="w-32 sm:w-40 aspect-[16/10] object-cover object-top rounded-lg border border-slate-700/70 shrink-0">
+                    <div class="min-w-0">
+                        <h3 class="font-semibold text-white"><a href="https://todo.tellezlabs.com" target="_blank" rel="noopener" class="hover:text-blue-300">FinalTodoList <span aria-hidden="true" class="text-gray-400">↗</span></a></h3>
+                        <p class="mt-1 text-sm text-gray-400 leading-relaxed">Real-time shared to-do lists with Pomodoro timers and offline support, one codebase for web, iOS and Android.</p>
+                        <p class="mono mt-2 text-xs text-gray-400">FastAPI + WebSockets · PostgreSQL · React Native + Expo</p>
+                    </div>
+                </li>
+                <li class="flex gap-5 items-start">
+                    <img src="assets/screenshots/expensemanager.png" alt="Vault expense manager screenshot" width="160" height="100" loading="lazy" class="w-32 sm:w-40 aspect-[16/10] object-cover object-top rounded-lg border border-slate-700/70 shrink-0">
+                    <div class="min-w-0">
+                        <h3 class="font-semibold text-white"><a href="https://expenses.tellezlabs.com" target="_blank" rel="noopener" class="hover:text-blue-300">Vault <span aria-hidden="true" class="text-gray-400">↗</span></a></h3>
+                        <p class="mt-1 text-sm text-gray-400 leading-relaxed">Multi-account, multi-currency finance manager with open-banking sync and net-worth dashboards.</p>
+                        <p class="mono mt-2 text-xs text-gray-400">FastAPI · PostgreSQL · React + TS · Open Banking API</p>
+                    </div>
+                </li>
+            </ul>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-slate-800 border-t border-slate-700 py-8">
-        <div class="max-w-6xl mx-auto px-4 text-center text-gray-500 text-sm">
-            <div class="flex justify-center gap-5 mb-3">
-                <a href="mailto:tellezlabs@gmail.com" class="hover:text-blue-400 transition flex items-center gap-1.5">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                    tellezlabs@gmail.com
-                </a>
-                <a href="https://linkedin.com/in/luistellez" target="_blank" rel="noopener" class="hover:text-blue-400 transition flex items-center gap-1.5">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                    LinkedIn
-                </a>
+    <!-- Call to action -->
+    <section class="border-t border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 py-16 sm:py-20 flex flex-col md:flex-row md:items-end md:justify-between gap-8">
+            <div class="max-w-xl">
+                <h2 class="text-2xl sm:text-3xl font-semibold text-white">Need something like this for your business?</h2>
+                <p class="mt-3 text-gray-400 leading-relaxed">I build custom web apps, data pipelines and AI agents, from first sketch to running in production.</p>
             </div>
-            <p>&copy; 2026 Tellez Labs. All rights reserved.</p>
+            <div class="flex flex-wrap gap-3">
+                <a href="mailto:tellezlabs@gmail.com?subject=Project%20enquiry" class="inline-flex items-center rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium text-sm px-5 py-3 transition">Email tellezlabs@gmail.com</a>
+                <a href="/es/#contacto" hreflang="es" class="inline-flex items-center rounded-lg border border-slate-600 hover:border-blue-400 text-gray-200 text-sm px-5 py-3 transition">En español</a>
+            </div>
+        </div>
+    </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 border-t border-slate-700">
+        <div class="max-w-6xl mx-auto px-4 py-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-4 text-sm">
+            <div class="lg:col-span-2 max-w-sm">
+                <p class="font-semibold text-white">Tellez Labs</p>
+                <p class="mt-2 text-gray-400 leading-relaxed">Software development and AI agents by Luis Tellez, senior software engineer in Málaga, Spain.</p>
+            </div>
+            <div>
+                <p class="font-medium text-gray-300">Site</p>
+                <ul class="mt-3 space-y-2 text-gray-400">
+                    <li><a href="index.html" class="hover:text-blue-400 transition">About</a></li>
+                    <li><a href="projects.html" class="hover:text-blue-400 transition">Projects</a></li>
+                    <li><a href="resume.html" class="hover:text-blue-400 transition">Resume</a></li>
+                    <li><a href="tools.html" class="hover:text-blue-400 transition">Tools</a></li>
+                    <li><a href="/es/" hreflang="es" class="hover:text-blue-400 transition">Español · Servicios</a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="font-medium text-gray-300">Contact</p>
+                <ul class="mt-3 space-y-2 text-gray-400">
+                    <li><a href="mailto:tellezlabs@gmail.com" class="hover:text-blue-400 transition inline-flex items-center gap-1.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                        tellezlabs@gmail.com</a></li>
+                    <li><a href="https://linkedin.com/in/luistellez" target="_blank" rel="noopener" class="hover:text-blue-400 transition inline-flex items-center gap-1.5">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        LinkedIn</a></li>
+                    <li><a href="https://eventoslocales.net/?utm_source=tellezlabs&amp;utm_medium=footer" target="_blank" rel="noopener" class="hover:text-blue-400 transition">eventoslocales.net</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="border-t border-slate-700/70">
+            <div class="max-w-6xl mx-auto px-4 py-5 flex flex-col sm:flex-row gap-2 justify-between text-xs text-gray-400">
+                <p>&copy; 2026 Tellez Labs. All rights reserved.</p>
+                <p>Static site on Cloudflare Pages. The apps run on a home server.</p>
+            </div>
         </div>
     </footer>
 
@@ -223,9 +384,56 @@
         const iconMenu = document.getElementById('iconMenu');
         const iconClose = document.getElementById('iconClose');
         toggle.addEventListener('click', () => {
-            const open = menu.classList.toggle('hidden');
-            iconMenu.classList.toggle('hidden', !open);
-            iconClose.classList.toggle('hidden', open);
+            const closed = menu.classList.toggle('hidden');
+            iconMenu.classList.toggle('hidden', !closed);
+            iconClose.classList.toggle('hidden', closed);
+            toggle.setAttribute('aria-expanded', String(!closed));
+        });
+
+        // Screenshot carousels: the track scrolls natively (swipe, trackpad, arrow keys);
+        // buttons and dots just scroll it, and the caption follows the visible slide.
+        document.querySelectorAll('[data-carousel]').forEach((root) => {
+            const track = root.querySelector('.track');
+            const slides = [...track.children];
+            const caption = root.querySelector('.caption');
+            const dotsBox = root.querySelector('.dots');
+            const prev = root.querySelector('.prev');
+            const next = root.querySelector('.next');
+            let current = 0;
+
+            const dots = slides.map((_, i) => {
+                const b = document.createElement('button');
+                b.type = 'button';
+                b.className = 'dot';
+                b.setAttribute('aria-label', `Screenshot ${i + 1} of ${slides.length}`);
+                b.addEventListener('click', () => go(i));
+                dotsBox.appendChild(b);
+                return b;
+            });
+
+            function go(i) {
+                i = Math.max(0, Math.min(slides.length - 1, i));
+                track.scrollTo({ left: slides[i].offsetLeft - track.offsetLeft });
+            }
+            function show(i) {
+                current = i;
+                caption.textContent = slides[i].querySelector('img').dataset.caption;
+                dots.forEach((d, j) => d.setAttribute('aria-current', String(j === i)));
+                prev.disabled = i === 0;
+                next.disabled = i === slides.length - 1;
+            }
+
+            prev.addEventListener('click', () => go(current - 1));
+            next.addEventListener('click', () => go(current + 1));
+            track.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight') { e.preventDefault(); go(current + 1); }
+                if (e.key === 'ArrowLeft') { e.preventDefault(); go(current - 1); }
+            });
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach((en) => { if (en.isIntersecting) show(slides.indexOf(en.target)); });
+            }, { root: track, threshold: 0.6 });
+            slides.forEach((s) => io.observe(s));
+            show(0);
         });
     </script>
 </body>
